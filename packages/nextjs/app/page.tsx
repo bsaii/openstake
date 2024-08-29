@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
@@ -8,6 +9,10 @@ import { Address } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
+  const [openStake, setOpenStake] = useState(false);
+  const [stakeState, setStakeState] = useState<boolean>();
+
+  console.log(stakeState);
 
   return (
     <>
@@ -15,28 +20,111 @@ const Home: NextPage = () => {
         <div className="px-5">
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
+            <span className="block text-4xl font-bold">OpenStake</span>
           </h1>
           <div className="flex justify-center items-center space-x-2 flex-col sm:flex-row">
             <p className="my-2 font-medium">Connected Address:</p>
             <Address address={connectedAddress} />
           </div>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
+        </div>
+
+        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+          <div className="flex flex-wrap gap-4">
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              {openStake ? (
+                <div className="card-body">
+                  <div className="flex">
+                    <input type="number" placeholder="0.001" className="input input-bordered w-full max-w-xs" />
+                  </div>
+                </div>
+              ) : (
+                <div className="card-body">
+                  <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                  <p>100 Stakes</p>
+                  <div className="card-actions justify-end w-full gap-x-3">
+                    <button
+                      className="btn btn-success"
+                      onClick={() => {
+                        setOpenStake(true);
+                        setStakeState(true);
+                      }}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      className="btn btn-error"
+                      onClick={() => {
+                        setOpenStake(true);
+                        setStakeState(false);
+                      }}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
