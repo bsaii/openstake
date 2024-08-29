@@ -14,8 +14,7 @@ contract StakeChain {
 		uint256 totalPool;
 		uint256 winnerPool;
 		uint256 loserPool;
-		uint256 platformFee;
-		uint256 settleReward;
+		uint256 settleReward; // 0.01% reward for calling settle
 		uint256 outcome;
 		bool betOpen;
 		bool betSettled;
@@ -27,6 +26,7 @@ contract StakeChain {
 	address public owner;
 	uint256 public betEventCount;
 	IERC20 public guessToken;
+	uint256 public platformFee; // Global platform fee (e.g., 2%)
 	mapping(uint256 => BetEvent) public betEvents;
 
 	event BetPlaced(
@@ -43,9 +43,10 @@ contract StakeChain {
 	);
 	event GUESSDistributed(address indexed player, uint256 amount);
 
-	constructor(address _guessTokenAddress) {
+	constructor(address _guessTokenAddress, uint256 _platformFee) {
 		owner = msg.sender;
 		guessToken = IERC20(_guessTokenAddress);
+		platformFee = _platformFee; // Set global platform fee
 	}
 
 	modifier onlyOwner() {
@@ -78,9 +79,8 @@ contract StakeChain {
 	}
 
 	// Create a new betting event
-	function createBetEvent(uint256 _platformFee) external onlyOwner {
+	function createBetEvent() external onlyOwner {
 		betEventCount++;
-		betEvents[betEventCount].platformFee = _platformFee;
 		betEvents[betEventCount].settleReward = 1; // 0.01% of the pool
 		betEvents[betEventCount].betOpen = true;
 	}
@@ -136,7 +136,7 @@ contract StakeChain {
 		}
 
 		// Deduct platform fees
-		// uint256 fee = (_betEvent.totalPool * _betEvent.platformFee) / 100;
+		// uint256 fee = (_betEvent.totalPool * platformFee) / 100;
 		uint256 reward = (_betEvent.totalPool * _betEvent.settleReward) / 10000;
 		// uint256 poolAfterFee = _betEvent.totalPool - fee - reward;
 
