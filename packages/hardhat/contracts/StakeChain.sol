@@ -6,7 +6,7 @@ pragma solidity 0.8.26;
 import { StakeChain_States } from "./StakeChain_States.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract StakeChain {
+contract StakeChain is StakeChain_States {
 	struct Bet {
 		uint256 amount;
 		uint256 outcome;
@@ -20,7 +20,6 @@ contract StakeChain {
 		uint256 totalPool;
 		uint256 winnerPool;
 		uint256 loserPool;
-		uint256 settleReward; // 0.01% reward for calling settle
 		uint256 outcome;
 		bool betOpen;
 		bool betSettled;
@@ -103,7 +102,6 @@ contract StakeChain {
 		newBetEvent.title = _title;
 		newBetEvent.description = _description;
 		newBetEvent.options = _options;
-		newBetEvent.settleReward = 1; // 0.01% of the pool
 		newBetEvent.betOpen = true;
 
 		emit BetEventCreated(betEventCount, _title, _description, _options);
@@ -157,7 +155,7 @@ contract StakeChain {
 		}
 
 		// Deduct platform fees
-		uint256 reward = (_betEvent.totalPool * _betEvent.settleReward) / 10000;
+		uint256 reward = (_betEvent.totalPool * SETTLE_REWARD) / PERCENTAGE;
 
 		// Assign shares to winners
 		for (uint256 i = 0; i < _betEvent.players.length; i++) {
