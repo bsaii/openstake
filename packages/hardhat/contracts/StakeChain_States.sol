@@ -13,7 +13,7 @@ error StakeChain__Unauthorized();
 contract StakeChain_States {
 	/// @notice Base percentage used for calculations, representing 100%
 	uint256 public constant PERCENTAGE = 100 ether;
-	address public constant OWNER = 0xd54d09a4154F47ba8a82e6BDa548bcbc348a83E2;
+	address public constant OWNER = 0x302cE12901038f313E621626372784Ef3301aa60;
 
 	address public SUSTAINABILITY_FEE_COLLECTOR =
 		0xFFD0a549e6982FB553302274d342dD6673b0deEE;

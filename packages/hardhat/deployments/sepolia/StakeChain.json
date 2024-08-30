@@ -1,0 +1,812 @@
+{
+  "address": "0x74fCDE9Ba75E5b9aF8d247Bc3fb9C9733334B38D",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "StakeChain__BetAlreadyPlaced",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__BetAmountZero",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__BetNotOpen",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__BetNotSettled",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__BetStillOpen",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__BetsAlreadySettled",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__InvalidOutcome",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__NoShareAvailable",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__OnlyOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__ShareAlreadyClaimed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StakeChain__Unauthorized",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "betEventId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string[]",
+          "name": "options",
+          "type": "string[]"
+        }
+      ],
+      "name": "BetEventCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "betEventId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "outcome",
+          "type": "uint256"
+        }
+      ],
+      "name": "BetPlaced",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "betEventId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "outcome",
+          "type": "uint256"
+        }
+      ],
+      "name": "BetSettled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "SCHAINDistributed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "betEventId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "ShareClaimed",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "OWNER",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PERCENTAGE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PLATFORM_FEE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PLATFORM_WALLET",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "SETTLE_REWARD",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "SUSTAINABILITY_FEE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "SUSTAINABILITY_FEE_COLLECTOR",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "UpdatePlatformFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "UpdateSustainabilityFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newCollector",
+          "type": "address"
+        }
+      ],
+      "name": "UpdateSustainabilityFeeCollector",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "betEventCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "betEvents",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalPool",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "winnerPool",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loserPool",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "outcome",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "betOpen",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "betSettled",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_betEventId",
+          "type": "uint256"
+        }
+      ],
+      "name": "claimShare",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_betEventId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_outcome",
+          "type": "uint256"
+        }
+      ],
+      "name": "closeBetting",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_title",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "string[]",
+          "name": "_options",
+          "type": "string[]"
+        }
+      ],
+      "name": "createBetEvent",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_betEventId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_outcome",
+          "type": "uint256"
+        }
+      ],
+      "name": "placeBet",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_betEventId",
+          "type": "uint256"
+        }
+      ],
+      "name": "settleBets",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_betEventId",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawFunds",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xfbfa12f16f1f36b6e31dfd4af185ea190cfb1d8457b55ec5ad5e51c940737c1d",
+  "receipt": {
+    "to": null,
+    "from": "0x302cE12901038f313E621626372784Ef3301aa60",
+    "contractAddress": "0x74fCDE9Ba75E5b9aF8d247Bc3fb9C9733334B38D",
+    "transactionIndex": 22,
+    "gasUsed": "1349154",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xf24d4c2033b4de1ada9ceed410e0939ad05305bee28d83b7efe978cb5cd77e9b",
+    "transactionHash": "0xfbfa12f16f1f36b6e31dfd4af185ea190cfb1d8457b55ec5ad5e51c940737c1d",
+    "logs": [],
+    "blockNumber": 6601262,
+    "cumulativeGasUsed": "9760881",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "6d175e494684a61b615a3072fe9d7ee7",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.26+commit.8a97fa7a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"StakeChain__BetAlreadyPlaced\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__BetAmountZero\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__BetNotOpen\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__BetNotSettled\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__BetStillOpen\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__BetsAlreadySettled\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__InvalidOutcome\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__NoShareAvailable\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__OnlyOwner\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__ShareAlreadyClaimed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"StakeChain__Unauthorized\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"betEventId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string[]\",\"name\":\"options\",\"type\":\"string[]\"}],\"name\":\"BetEventCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"betEventId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"outcome\",\"type\":\"uint256\"}],\"name\":\"BetPlaced\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"betEventId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"outcome\",\"type\":\"uint256\"}],\"name\":\"BetSettled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"SCHAINDistributed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"betEventId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"ShareClaimed\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"OWNER\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PERCENTAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PLATFORM_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PLATFORM_WALLET\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"SETTLE_REWARD\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"SUSTAINABILITY_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"SUSTAINABILITY_FEE_COLLECTOR\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"UpdatePlatformFee\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"UpdateSustainabilityFee\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newCollector\",\"type\":\"address\"}],\"name\":\"UpdateSustainabilityFeeCollector\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"betEventCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"betEvents\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"totalPool\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"winnerPool\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"loserPool\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"outcome\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"betOpen\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"betSettled\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_betEventId\",\"type\":\"uint256\"}],\"name\":\"claimShare\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_betEventId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_outcome\",\"type\":\"uint256\"}],\"name\":\"closeBetting\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_description\",\"type\":\"string\"},{\"internalType\":\"string[]\",\"name\":\"_options\",\"type\":\"string[]\"}],\"name\":\"createBetEvent\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_betEventId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_outcome\",\"type\":\"uint256\"}],\"name\":\"placeBet\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_betEventId\",\"type\":\"uint256\"}],\"name\":\"settleBets\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_betEventId\",\"type\":\"uint256\"}],\"name\":\"withdrawFunds\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"custom:security-contact\":\"franzquarshie@gmail.com\",\"errors\":{\"StakeChain__Unauthorized()\":[{\"custom:contact\":\"franzquarshie@gmail.com\"}]},\"kind\":\"dev\",\"methods\":{\"UpdatePlatformFee(uint256)\":{\"details\":\"Administrative\",\"params\":{\"_amount\":\"New platform fee\"}},\"UpdateSustainabilityFee(uint256)\":{\"details\":\"Administrative\",\"params\":{\"_amount\":\"New Sustainability fee\"}},\"UpdateSustainabilityFeeCollector(address)\":{\"details\":\"Administrative\",\"params\":{\"newCollector\":\"Update sustainability fee collector\"}}},\"title\":\"StakeChain\",\"version\":1},\"userdoc\":{\"errors\":{\"StakeChain__Unauthorized()\":[{\"notice\":\"This contract controls the states of the StateChain contract\"}]},\"kind\":\"user\",\"methods\":{\"PERCENTAGE()\":{\"notice\":\"Base percentage used for calculations, representing 100%\"},\"PLATFORM_FEE()\":{\"notice\":\"Fee percentage deducted from each transaction\"},\"PLATFORM_WALLET()\":{\"notice\":\"Platform Account\"},\"SETTLE_REWARD()\":{\"notice\":\"Settle reward percentage for the user who settles the bets\"},\"SUSTAINABILITY_FEE()\":{\"notice\":\"Percentage that goes to environment sustainability\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/StakeChain.sol\":\"StakeChain\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/security/ReentrancyGuard.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.8.0) (security/ReentrancyGuard.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Contract module that helps prevent reentrant calls to a function.\\n *\\n * Inheriting from `ReentrancyGuard` will make the {nonReentrant} modifier\\n * available, which can be applied to functions to make sure there are no nested\\n * (reentrant) calls to them.\\n *\\n * Note that because there is a single `nonReentrant` guard, functions marked as\\n * `nonReentrant` may not call one another. This can be worked around by making\\n * those functions `private`, and then adding `external` `nonReentrant` entry\\n * points to them.\\n *\\n * TIP: If you would like to learn more about reentrancy and alternative ways\\n * to protect against it, check out our blog post\\n * https://blog.openzeppelin.com/reentrancy-after-istanbul/[Reentrancy After Istanbul].\\n */\\nabstract contract ReentrancyGuard {\\n    // Booleans are more expensive than uint256 or any type that takes up a full\\n    // word because each write operation emits an extra SLOAD to first read the\\n    // slot's contents, replace the bits taken up by the boolean, and then write\\n    // back. This is the compiler's defense against contract upgrades and\\n    // pointer aliasing, and it cannot be disabled.\\n\\n    // The values being non-zero value makes deployment a bit more expensive,\\n    // but in exchange the refund on every call to nonReentrant will be lower in\\n    // amount. Since refunds are capped to a percentage of the total\\n    // transaction's gas, it is best to keep them low in cases like this one, to\\n    // increase the likelihood of the full refund coming into effect.\\n    uint256 private constant _NOT_ENTERED = 1;\\n    uint256 private constant _ENTERED = 2;\\n\\n    uint256 private _status;\\n\\n    constructor() {\\n        _status = _NOT_ENTERED;\\n    }\\n\\n    /**\\n     * @dev Prevents a contract from calling itself, directly or indirectly.\\n     * Calling a `nonReentrant` function from another `nonReentrant`\\n     * function is not supported. It is possible to prevent this from happening\\n     * by making the `nonReentrant` function external, and making it call a\\n     * `private` function that does the actual work.\\n     */\\n    modifier nonReentrant() {\\n        _nonReentrantBefore();\\n        _;\\n        _nonReentrantAfter();\\n    }\\n\\n    function _nonReentrantBefore() private {\\n        // On the first call to nonReentrant, _status will be _NOT_ENTERED\\n        require(_status != _ENTERED, \\\"ReentrancyGuard: reentrant call\\\");\\n\\n        // Any calls to nonReentrant after this point will fail\\n        _status = _ENTERED;\\n    }\\n\\n    function _nonReentrantAfter() private {\\n        // By storing the original value once again, a refund is triggered (see\\n        // https://eips.ethereum.org/EIPS/eip-2200)\\n        _status = _NOT_ENTERED;\\n    }\\n}\\n\",\"keccak256\":\"0x190dd6f8d592b7e4e930feb7f4313aeb8e1c4ad3154c27ce1cf6a512fc30d8cc\",\"license\":\"MIT\"},\"contracts/StakeChain.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.26;\\n/// @notice This contract allows users to place bets\\n/// @custom:contact franzquarshie@gmail.com\\n\\nimport { StakeChain_States } from \\\"./StakeChain_States.sol\\\";\\nimport { ReentrancyGuard } from \\\"@openzeppelin/contracts/security/ReentrancyGuard.sol\\\";\\n\\nerror StakeChain__OnlyOwner();\\nerror StakeChain__BetNotOpen();\\nerror StakeChain__BetStillOpen();\\nerror StakeChain__BetNotSettled();\\nerror StakeChain__InvalidOutcome();\\nerror StakeChain__BetAmountZero();\\nerror StakeChain__BetAlreadyPlaced();\\nerror StakeChain__BetsAlreadySettled();\\nerror StakeChain__ShareAlreadyClaimed();\\nerror StakeChain__NoShareAvailable();\\n\\n/**\\n * @title StakeChain\\n * @custom:security-contact franzquarshie@gmail.com\\n */\\ncontract StakeChain is StakeChain_States, ReentrancyGuard {\\n\\tstruct Bet {\\n\\t\\tuint256 amount;\\n\\t\\tuint256 outcome;\\n\\t\\tbool claimed;\\n\\t}\\n\\n\\tstruct BetEvent {\\n\\t\\tstring title;\\n\\t\\tstring description;\\n\\t\\tstring[] options;\\n\\t\\tuint256 totalPool;\\n\\t\\tuint256 winnerPool;\\n\\t\\tuint256 loserPool;\\n\\t\\tuint256 outcome;\\n\\t\\tbool betOpen;\\n\\t\\tbool betSettled;\\n\\t\\tmapping(address => Bet) bets;\\n\\t\\tmapping(address => uint256) shares;\\n\\t\\taddress[] players;\\n\\t}\\n\\n\\tuint256 public betEventCount;\\n\\n\\tmapping(uint256 => BetEvent) public betEvents;\\n\\n\\tevent BetPlaced(\\n\\t\\tuint256 indexed betEventId,\\n\\t\\taddress indexed player,\\n\\t\\tuint256 amount,\\n\\t\\tuint256 outcome\\n\\t);\\n\\tevent BetSettled(uint256 indexed betEventId, uint256 outcome);\\n\\tevent ShareClaimed(\\n\\t\\tuint256 indexed betEventId,\\n\\t\\taddress indexed player,\\n\\t\\tuint256 amount\\n\\t);\\n\\tevent SCHAINDistributed(address indexed player, uint256 amount);\\n\\tevent BetEventCreated(\\n\\t\\tuint256 indexed betEventId,\\n\\t\\tstring title,\\n\\t\\tstring description,\\n\\t\\tstring[] options\\n\\t);\\n\\n\\tmodifier onlyOwner() {\\n\\t\\tif (msg.sender != OWNER) revert StakeChain__OnlyOwner();\\n\\t\\t_;\\n\\t}\\n\\n\\tmodifier betIsOpen(uint256 _betEventId) {\\n\\t\\tif (!betEvents[_betEventId].betOpen) revert StakeChain__BetNotOpen();\\n\\t\\t_;\\n\\t}\\n\\n\\tmodifier betIsClosed(uint256 _betEventId) {\\n\\t\\tif (betEvents[_betEventId].betOpen) revert StakeChain__BetStillOpen();\\n\\t\\t_;\\n\\t}\\n\\n\\tmodifier betIsSettled(uint256 _betEventId) {\\n\\t\\tif (!betEvents[_betEventId].betSettled)\\n\\t\\t\\trevert StakeChain__BetNotSettled();\\n\\t\\t_;\\n\\t}\\n\\n\\t// Create a new betting event with title, description, and options\\n\\tfunction createBetEvent(\\n\\t\\tstring memory _title,\\n\\t\\tstring memory _description,\\n\\t\\tstring[] memory _options\\n\\t) external onlyOwner {\\n\\t\\tbetEventCount++;\\n\\t\\tBetEvent storage newBetEvent = betEvents[betEventCount];\\n\\t\\tnewBetEvent.title = _title;\\n\\t\\tnewBetEvent.description = _description;\\n\\t\\tnewBetEvent.options = _options;\\n\\t\\tnewBetEvent.betOpen = true;\\n\\n\\t\\temit BetEventCreated(betEventCount, _title, _description, _options);\\n\\t}\\n\\n\\t// Players can place their bets\\n\\tfunction placeBet(\\n\\t\\tuint256 _betEventId,\\n\\t\\tuint256 _outcome\\n\\t) external payable betIsOpen(_betEventId) {\\n\\t\\tif (msg.value == 0) revert StakeChain__BetAmountZero();\\n\\t\\tif (betEvents[_betEventId].bets[msg.sender].claimed)\\n\\t\\t\\trevert StakeChain__BetAlreadyPlaced();\\n\\n\\t\\tBetEvent storage _betEvent = betEvents[_betEventId];\\n\\n\\t\\t_betEvent.bets[msg.sender] = Bet(msg.value, _outcome, false);\\n\\t\\t_betEvent.players.push(msg.sender);\\n\\t\\t_betEvent.totalPool += msg.value;\\n\\n\\t\\temit BetPlaced(_betEventId, msg.sender, msg.value, _outcome);\\n\\t}\\n\\n\\t// Close betting and set the outcome for a specific  bet event\\n\\tfunction closeBetting(\\n\\t\\tuint256 _betEventId,\\n\\t\\tuint256 _outcome\\n\\t) external onlyOwner betIsOpen(_betEventId) {\\n\\t\\tif (_outcome == 0 || _outcome > betEvents[_betEventId].options.length)\\n\\t\\t\\trevert StakeChain__InvalidOutcome();\\n\\t\\tbetEvents[_betEventId].outcome = _outcome;\\n\\t\\tbetEvents[_betEventId].betOpen = false;\\n\\t\\temit BetSettled(_betEventId, _outcome);\\n\\t}\\n\\n\\t// Settle the bets and assign shares for a specific bet event\\n\\tfunction settleBets(\\n\\t\\tuint256 _betEventId\\n\\t) external nonReentrant betIsClosed(_betEventId) {\\n\\t\\tif (betEvents[_betEventId].betSettled)\\n\\t\\t\\trevert StakeChain__BetsAlreadySettled();\\n\\n\\t\\tBetEvent storage _betEvent = betEvents[_betEventId];\\n\\n\\t\\t// Calculate the total pools for winners and losers\\n\\t\\tfor (uint256 i = 0; i < _betEvent.players.length; i++) {\\n\\t\\t\\taddress player = _betEvent.players[i];\\n\\t\\t\\tif (_betEvent.bets[player].outcome == _betEvent.outcome) {\\n\\t\\t\\t\\t_betEvent.winnerPool += _betEvent.bets[player].amount;\\n\\t\\t\\t} else {\\n\\t\\t\\t\\t_betEvent.loserPool += _betEvent.bets[player].amount;\\n\\t\\t\\t}\\n\\t\\t}\\n\\n\\t\\t// Calculate and deduct platform fees\\n\\t\\tuint256 platformFee = (_betEvent.totalPool * PLATFORM_FEE) / PERCENTAGE;\\n\\t\\tuint256 sustainabilityFee = (_betEvent.totalPool * SUSTAINABILITY_FEE) /\\n\\t\\t\\tPERCENTAGE;\\n\\t\\tuint256 settlerReward = (_betEvent.totalPool * SETTLE_REWARD) /\\n\\t\\t\\tPERCENTAGE;\\n\\n\\t\\t// Calculate the remaining pool after fees\\n\\t\\tuint256 remainingPool = _betEvent.totalPool -\\n\\t\\t\\tplatformFee -\\n\\t\\t\\tsustainabilityFee -\\n\\t\\t\\tsettlerReward;\\n\\n\\t\\t// Send platform fee to PLATFORM_WALLET\\n\\t\\tpayable(PLATFORM_WALLET).transfer(platformFee);\\n\\n\\t\\t// Send sustainability fee to SUSTAINABILITY_FEE_COLLECTOR\\n\\t\\tpayable(SUSTAINABILITY_FEE_COLLECTOR).transfer(sustainabilityFee);\\n\\n\\t\\t// Assign shares to winners\\n\\t\\tfor (uint256 i = 0; i < _betEvent.players.length; i++) {\\n\\t\\t\\taddress player = _betEvent.players[i];\\n\\t\\t\\tif (_betEvent.bets[player].outcome == _betEvent.outcome) {\\n\\t\\t\\t\\t_betEvent.shares[player] =\\n\\t\\t\\t\\t\\t(_betEvent.bets[player].amount * remainingPool) /\\n\\t\\t\\t\\t\\t_betEvent.winnerPool;\\n\\t\\t\\t}\\n\\t\\t}\\n\\n\\t\\t// Transfer settle reward to the caller\\n\\t\\tpayable(msg.sender).transfer(settlerReward);\\n\\n\\t\\t_betEvent.betSettled = true;\\n\\n\\t\\temit BetSettled(_betEventId, _betEvent.outcome);\\n\\t}\\n\\n\\t// Users claim their shares for a specific  bet event\\n\\tfunction claimShare(\\n\\t\\tuint256 _betEventId\\n\\t) external betIsSettled(_betEventId) {\\n\\t\\tBetEvent storage _betEvent = betEvents[_betEventId];\\n\\t\\tif (_betEvent.bets[msg.sender].claimed)\\n\\t\\t\\trevert StakeChain__ShareAlreadyClaimed();\\n\\t\\tuint256 share = _betEvent.shares[msg.sender];\\n\\t\\tif (share == 0) revert StakeChain__NoShareAvailable();\\n\\n\\t\\t_betEvent.bets[msg.sender].claimed = true;\\n\\t\\tpayable(msg.sender).transfer(share + _betEvent.bets[msg.sender].amount);\\n\\n\\t\\temit ShareClaimed(\\n\\t\\t\\t_betEventId,\\n\\t\\t\\tmsg.sender,\\n\\t\\t\\tshare + _betEvent.bets[msg.sender].amount\\n\\t\\t);\\n\\t}\\n\\n\\t// In case there are any leftover funds, the owner can withdraw them\\n\\tfunction withdrawFunds(\\n\\t\\tuint256 _betEventId\\n\\t) external onlyOwner betIsSettled(_betEventId) {\\n\\t\\tpayable(OWNER).transfer(address(this).balance);\\n\\t}\\n}\\n\",\"keccak256\":\"0x986a6bc62be87700922a969b7b95a049ad0cec788e472572d499ba1cec8ef625\",\"license\":\"MIT\"},\"contracts/StakeChain_States.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity 0.8.26;\\n/// @notice This contract controls the states of the StateChain contract\\n/// @custom:contact franzquarshie@gmail.com\\n\\nerror StakeChain__Unauthorized();\\n\\n/**\\n * @title StakeChain Extended\\n * @custom:security-contact franzquarshie@gmail.com\\n */\\ncontract StakeChain_States {\\n\\t/// @notice Base percentage used for calculations, representing 100%\\n\\tuint256 public constant PERCENTAGE = 100 ether;\\n\\taddress public constant OWNER = 0x302cE12901038f313E621626372784Ef3301aa60;\\n\\n\\taddress public SUSTAINABILITY_FEE_COLLECTOR =\\n\\t\\t0xFFD0a549e6982FB553302274d342dD6673b0deEE;\\n\\n\\t/// @notice Fee percentage deducted from each transaction\\n\\tuint256 public PLATFORM_FEE = 1 ether;\\n\\t/// @notice Settle reward percentage for the user who settles the bets\\n\\tuint256 public SETTLE_REWARD = 0.01 ether;\\n\\t/// @notice Percentage that goes to environment sustainability\\n\\tuint256 public SUSTAINABILITY_FEE = 0.5 ether;\\n\\n\\t/// @notice Platform Account\\n\\taddress public constant PLATFORM_WALLET =\\n\\t\\t0xd54d09a4154F47ba8a82e6BDa548bcbc348a83E2;\\n\\n\\t/**\\n\\t * @dev Administrative\\n\\t * @param _amount New platform fee\\n\\t */\\n\\tfunction UpdatePlatformFee(uint256 _amount) public _isOwner {\\n\\t\\tPLATFORM_FEE = _amount;\\n\\t}\\n\\n\\t/**\\n\\t * @dev Administrative\\n\\t * @param _amount New Sustainability fee\\n\\t */\\n\\tfunction UpdateSustainabilityFee(uint256 _amount) public _isOwner {\\n\\t\\tSUSTAINABILITY_FEE = _amount;\\n\\t}\\n\\n\\t/**\\n\\t * @dev Administrative\\n\\t * @param newCollector Update sustainability fee collector\\n\\t */\\n\\tfunction UpdateSustainabilityFeeCollector(\\n\\t\\taddress newCollector\\n\\t) public _isOwner {\\n\\t\\tSUSTAINABILITY_FEE_COLLECTOR = newCollector;\\n\\t}\\n\\n\\tmodifier _isOwner() {\\n\\t\\tif (msg.sender != OWNER) {\\n\\t\\t\\trevert StakeChain__Unauthorized();\\n\\t\\t}\\n\\t\\t_;\\n\\t}\\n}\\n\",\"keccak256\":\"0xbea799c338d0afa03d3c8ec2da8a78ce15ce713bf4a28b851602d765b80afda3\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x6080604052600080546001600160a01b03191673ffd0a549e6982fb553302274d342dd6673b0deee179055670de0b6b3a7640000600155662386f26fc100006002556706f05b59d3b20000600355348015605857600080fd5b50600160045561156b8061006d6000396000f3fe6080604052600436106101085760003560e01c806334fbc9a11161009557806366da537f1161006457806366da537f146102be5780637b4ce223146102de5780637e34647b146102fe578063aab9abdf1461031e578063eb8b12d41461033e57600080fd5b806334fbc9a11461025f5780633f558a65146102755780634afe62b5146102955780635541f0bd146102a857600080fd5b8063155dd5ee116100dc578063155dd5ee146101cc5780632644fd26146101ec578063293315f21461020c5780632c309127146102295780632e9be1a81461024957600080fd5b8062f5afa81461010d5780630cc03e7a14610136578063107a2c5e14610158578063117803e31461018c575b600080fd5b34801561011957600080fd5b5061012360035481565b6040519081526020015b60405180910390f35b34801561014257600080fd5b50610156610151366004610fc7565b610366565b005b34801561016457600080fd5b50610178610173366004610fc7565b6104c5565b60405161012d989796959493929190611026565b34801561019857600080fd5b506101b473302ce12901038f313e621626372784ef3301aa6081565b6040516001600160a01b03909116815260200161012d565b3480156101d857600080fd5b506101566101e7366004610fc7565b61061c565b3480156101f857600080fd5b50610156610207366004610fc7565b6106ce565b34801561021857600080fd5b5061012368056bc75e2d6310000081565b34801561023557600080fd5b50610156610244366004610fc7565b610706565b34801561025557600080fd5b5061012360055481565b34801561026b57600080fd5b5061012360015481565b34801561028157600080fd5b50610156610290366004610fc7565b610ad3565b6101566102a3366004611084565b610b0b565b3480156102b457600080fd5b5061012360025481565b3480156102ca57600080fd5b506101566102d9366004611084565b610c74565b3480156102ea57600080fd5b506101566102f93660046110a6565b610d79565b34801561030a57600080fd5b506000546101b4906001600160a01b031681565b34801561032a57600080fd5b5061015661033936600461118d565b610dce565b34801561034a57600080fd5b506101b473d54d09a4154f47ba8a82e6bda548bcbc348a83e281565b6000818152600660205260409020600701548190610100900460ff1661039f57604051636befeadb60e11b815260040160405180910390fd5b6000828152600660209081526040808320338452600881019092529091206002015460ff16156103e25760405163a61576ad60e01b815260040160405180910390fd5b3360009081526009820160205260408120549081900361041557604051633508829760e11b815260040160405180910390fd5b336000818152600884016020526040902060028101805460ff19166001179055546108fc9061044490846112ce565b6040518115909202916000818181858888f1935050505015801561046c573d6000803e3d6000fd5b5033600081815260088401602052604090205485907ff80547156613938c35684d592c576c4818b03d4c00f1a30da9072b1b6031acd8906104ad90856112ce565b6040519081526020015b60405180910390a350505050565b6006602052600090815260409020805481906104e0906112e7565b80601f016020809104026020016040519081016040528092919081815260200182805461050c906112e7565b80156105595780601f1061052e57610100808354040283529160200191610559565b820191906000526020600020905b81548152906001019060200180831161053c57829003601f168201915b50505050509080600101805461056e906112e7565b80601f016020809104026020016040519081016040528092919081815260200182805461059a906112e7565b80156105e75780601f106105bc576101008083540402835291602001916105e7565b820191906000526020600020905b8154815290600101906020018083116105ca57829003601f168201915b505050600384015460048501546005860154600687015460079097015495969295919450925060ff8082169161010090041688565b3373302ce12901038f313e621626372784ef3301aa6014610650576040516319b83d2d60e31b815260040160405180910390fd5b6000818152600660205260409020600701548190610100900460ff1661068957604051636befeadb60e11b815260040160405180910390fd5b60405173302ce12901038f313e621626372784ef3301aa60904780156108fc02916000818181858888f193505050501580156106c9573d6000803e3d6000fd5b505050565b3373302ce12901038f313e621626372784ef3301aa6014610701576040516265d69360e51b815260040160405180910390fd5b600155565b61070e610ead565b600081815260066020526040902060070154819060ff161561074357604051632685b40360e01b815260040160405180910390fd5b600082815260066020526040902060070154610100900460ff161561077b57604051630229639160e61b815260040160405180910390fd5b6000828152600660205260408120905b600a82015481101561086157600082600a0182815481106107ae576107ae611321565b600091825260208083209091015460068601546001600160a01b039091168084526008870190925260409092206001015490925003610822576001600160a01b0381166000908152600884016020526040812054600485018054919290916108179084906112ce565b909155506108589050565b6001600160a01b0381166000908152600884016020526040812054600585018054919290916108529084906112ce565b90915550505b5060010161078b565b50600068056bc75e2d6310000060015483600301546108809190611337565b61088a919061134e565b9050600068056bc75e2d6310000060035484600301546108aa9190611337565b6108b4919061134e565b9050600068056bc75e2d6310000060025485600301546108d49190611337565b6108de919061134e565b9050600081838587600301546108f49190611370565b6108fe9190611370565b6109089190611370565b60405190915073d54d09a4154f47ba8a82e6bda548bcbc348a83e29085156108fc029086906000818181858888f1935050505015801561094c573d6000803e3d6000fd5b50600080546040516001600160a01b039091169185156108fc02918691818181858888f19350505050158015610986573d6000803e3d6000fd5b5060005b600a860154811015610a4057600086600a0182815481106109ad576109ad611321565b600091825260208083209091015460068a01546001600160a01b0390911680845260088b0190925260409092206001015490925003610a375760048701546001600160a01b0382166000908152600889016020526040902054610a11908590611337565b610a1b919061134e565b6001600160a01b03821660009081526009890160205260409020555b5060010161098a565b50604051339083156108fc029084906000818181858888f19350505050158015610a6e573d6000803e3d6000fd5b5060078501805461ff001916610100179055600685015460405188917f209446440b3bc7b90cab90b2b8095e5f368dbec807cfbc01354237a11b45c63691610ab891815260200190565b60405180910390a2505050505050610ad06001600455565b50565b3373302ce12901038f313e621626372784ef3301aa6014610b06576040516265d69360e51b815260040160405180910390fd5b600355565b600082815260066020526040902060070154829060ff16610b3f576040516308fcb87160e41b815260040160405180910390fd5b34600003610b6057604051633e86adad60e21b815260040160405180910390fd5b600083815260066020908152604080832033845260080190915290206002015460ff1615610ba15760405163ed5b8a8960e01b815260040160405180910390fd5b60008381526006602090815260408083208151606081018352348082528185018881528285018781523380895260088601885295882093518455905160018085019190915590516002909301805460ff191693151593909317909255600a83018054928301815586529385200180546001600160a01b03191690921790915560038101805491939091610c359084906112ce565b90915550506040805134815260208101859052339186917f1b8a9031cb9351278d70a994f81536e9e08c91162e64f92b2fe4766fb7a891b491016104b7565b3373302ce12901038f313e621626372784ef3301aa6014610ca8576040516319b83d2d60e31b815260040160405180910390fd5b600082815260066020526040902060070154829060ff16610cdc576040516308fcb87160e41b815260040160405180910390fd5b811580610cf9575060008381526006602052604090206002015482115b15610d17576040516392e4a3e560e01b815260040160405180910390fd5b600083815260066020819052604091829020908101849055600701805460ff191690555183907f209446440b3bc7b90cab90b2b8095e5f368dbec807cfbc01354237a11b45c63690610d6c9085815260200190565b60405180910390a2505050565b3373302ce12901038f313e621626372784ef3301aa6014610dac576040516265d69360e51b815260040160405180910390fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b3373302ce12901038f313e621626372784ef3301aa6014610e02576040516319b83d2d60e31b815260040160405180910390fd5b60058054906000610e1283611383565b9091555050600554600090815260066020526040902080610e3385826113ea565b5060018101610e4284826113ea565b508151610e589060028301906020850190610f0a565b5060078101805460ff191660011790556005546040517fc4d79e090dbd35b18979cb0daf964422ff9a5547cc9af41b9101f2779b3735ca90610e9f908790879087906114a9565b60405180910390a250505050565b600260045403610f035760405162461bcd60e51b815260206004820152601f60248201527f5265656e7472616e637947756172643a207265656e7472616e742063616c6c00604482015260640160405180910390fd5b6002600455565b828054828255906000526020600020908101928215610f50579160200282015b82811115610f505782518290610f4090826113ea565b5091602001919060010190610f2a565b50610f5c929150610f60565b5090565b80821115610f5c576000610f748282610f7d565b50600101610f60565b508054610f89906112e7565b6000825580601f10610f99575050565b601f016020900490600052602060002090810190610ad091905b80821115610f5c5760008155600101610fb3565b600060208284031215610fd957600080fd5b5035919050565b6000815180845260005b8181101561100657602081850181015186830182015201610fea565b506000602082860101526020601f19601f83011685010191505092915050565b6101008152600061103b61010083018b610fe0565b828103602084015261104d818b610fe0565b604084019990995250506060810195909552608085019390935260a0840191909152151560c0830152151560e09091015292915050565b6000806040838503121561109757600080fd5b50508035926020909101359150565b6000602082840312156110b857600080fd5b81356001600160a01b03811681146110cf57600080fd5b9392505050565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff81118282101715611115576111156110d6565b604052919050565b600082601f83011261112e57600080fd5b813567ffffffffffffffff811115611148576111486110d6565b61115b601f8201601f19166020016110ec565b81815284602083860101111561117057600080fd5b816020850160208301376000918101602001919091529392505050565b6000806000606084860312156111a257600080fd5b833567ffffffffffffffff8111156111b957600080fd5b6111c58682870161111d565b935050602084013567ffffffffffffffff8111156111e257600080fd5b6111ee8682870161111d565b925050604084013567ffffffffffffffff81111561120b57600080fd5b8401601f8101861361121c57600080fd5b803567ffffffffffffffff811115611236576112366110d6565b8060051b611246602082016110ec565b9182526020818401810192908101908984111561126257600080fd5b6020850192505b838310156112a957823567ffffffffffffffff81111561128857600080fd5b6112978b60208389010161111d565b83525060209283019290910190611269565b80955050505050509250925092565b634e487b7160e01b600052601160045260246000fd5b808201808211156112e1576112e16112b8565b92915050565b600181811c908216806112fb57607f821691505b60208210810361131b57634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052603260045260246000fd5b80820281158282048414176112e1576112e16112b8565b60008261136b57634e487b7160e01b600052601260045260246000fd5b500490565b818103818111156112e1576112e16112b8565b600060018201611395576113956112b8565b5060010190565b601f8211156106c957806000526020600020601f840160051c810160208510156113c35750805b601f840160051c820191505b818110156113e357600081556001016113cf565b5050505050565b815167ffffffffffffffff811115611404576114046110d6565b6114188161141284546112e7565b8461139c565b6020601f82116001811461144c57600083156114345750848201515b600019600385901b1c1916600184901b1784556113e3565b600084815260208120601f198516915b8281101561147c578785015182556020948501946001909201910161145c565b508482101561149a5786840151600019600387901b60f8161c191681555b50505050600190811b01905550565b6060815260006114bc6060830186610fe0565b82810360208401526114ce8186610fe0565b9050828103604084015280845180835260208301915060208160051b8401016020870160005b8381101561152657601f19868403018552611510838351610fe0565b60209586019590935091909101906001016114f4565b5090999850505050505050505056fea2646970667358221220b0eef768445263c3d8b50581de13a41d6f61f166f799e688b5d5e098c191562a64736f6c634300081a0033",
+  "deployedBytecode": "0x6080604052600436106101085760003560e01c806334fbc9a11161009557806366da537f1161006457806366da537f146102be5780637b4ce223146102de5780637e34647b146102fe578063aab9abdf1461031e578063eb8b12d41461033e57600080fd5b806334fbc9a11461025f5780633f558a65146102755780634afe62b5146102955780635541f0bd146102a857600080fd5b8063155dd5ee116100dc578063155dd5ee146101cc5780632644fd26146101ec578063293315f21461020c5780632c309127146102295780632e9be1a81461024957600080fd5b8062f5afa81461010d5780630cc03e7a14610136578063107a2c5e14610158578063117803e31461018c575b600080fd5b34801561011957600080fd5b5061012360035481565b6040519081526020015b60405180910390f35b34801561014257600080fd5b50610156610151366004610fc7565b610366565b005b34801561016457600080fd5b50610178610173366004610fc7565b6104c5565b60405161012d989796959493929190611026565b34801561019857600080fd5b506101b473302ce12901038f313e621626372784ef3301aa6081565b6040516001600160a01b03909116815260200161012d565b3480156101d857600080fd5b506101566101e7366004610fc7565b61061c565b3480156101f857600080fd5b50610156610207366004610fc7565b6106ce565b34801561021857600080fd5b5061012368056bc75e2d6310000081565b34801561023557600080fd5b50610156610244366004610fc7565b610706565b34801561025557600080fd5b5061012360055481565b34801561026b57600080fd5b5061012360015481565b34801561028157600080fd5b50610156610290366004610fc7565b610ad3565b6101566102a3366004611084565b610b0b565b3480156102b457600080fd5b5061012360025481565b3480156102ca57600080fd5b506101566102d9366004611084565b610c74565b3480156102ea57600080fd5b506101566102f93660046110a6565b610d79565b34801561030a57600080fd5b506000546101b4906001600160a01b031681565b34801561032a57600080fd5b5061015661033936600461118d565b610dce565b34801561034a57600080fd5b506101b473d54d09a4154f47ba8a82e6bda548bcbc348a83e281565b6000818152600660205260409020600701548190610100900460ff1661039f57604051636befeadb60e11b815260040160405180910390fd5b6000828152600660209081526040808320338452600881019092529091206002015460ff16156103e25760405163a61576ad60e01b815260040160405180910390fd5b3360009081526009820160205260408120549081900361041557604051633508829760e11b815260040160405180910390fd5b336000818152600884016020526040902060028101805460ff19166001179055546108fc9061044490846112ce565b6040518115909202916000818181858888f1935050505015801561046c573d6000803e3d6000fd5b5033600081815260088401602052604090205485907ff80547156613938c35684d592c576c4818b03d4c00f1a30da9072b1b6031acd8906104ad90856112ce565b6040519081526020015b60405180910390a350505050565b6006602052600090815260409020805481906104e0906112e7565b80601f016020809104026020016040519081016040528092919081815260200182805461050c906112e7565b80156105595780601f1061052e57610100808354040283529160200191610559565b820191906000526020600020905b81548152906001019060200180831161053c57829003601f168201915b50505050509080600101805461056e906112e7565b80601f016020809104026020016040519081016040528092919081815260200182805461059a906112e7565b80156105e75780601f106105bc576101008083540402835291602001916105e7565b820191906000526020600020905b8154815290600101906020018083116105ca57829003601f168201915b505050600384015460048501546005860154600687015460079097015495969295919450925060ff8082169161010090041688565b3373302ce12901038f313e621626372784ef3301aa6014610650576040516319b83d2d60e31b815260040160405180910390fd5b6000818152600660205260409020600701548190610100900460ff1661068957604051636befeadb60e11b815260040160405180910390fd5b60405173302ce12901038f313e621626372784ef3301aa60904780156108fc02916000818181858888f193505050501580156106c9573d6000803e3d6000fd5b505050565b3373302ce12901038f313e621626372784ef3301aa6014610701576040516265d69360e51b815260040160405180910390fd5b600155565b61070e610ead565b600081815260066020526040902060070154819060ff161561074357604051632685b40360e01b815260040160405180910390fd5b600082815260066020526040902060070154610100900460ff161561077b57604051630229639160e61b815260040160405180910390fd5b6000828152600660205260408120905b600a82015481101561086157600082600a0182815481106107ae576107ae611321565b600091825260208083209091015460068601546001600160a01b039091168084526008870190925260409092206001015490925003610822576001600160a01b0381166000908152600884016020526040812054600485018054919290916108179084906112ce565b909155506108589050565b6001600160a01b0381166000908152600884016020526040812054600585018054919290916108529084906112ce565b90915550505b5060010161078b565b50600068056bc75e2d6310000060015483600301546108809190611337565b61088a919061134e565b9050600068056bc75e2d6310000060035484600301546108aa9190611337565b6108b4919061134e565b9050600068056bc75e2d6310000060025485600301546108d49190611337565b6108de919061134e565b9050600081838587600301546108f49190611370565b6108fe9190611370565b6109089190611370565b60405190915073d54d09a4154f47ba8a82e6bda548bcbc348a83e29085156108fc029086906000818181858888f1935050505015801561094c573d6000803e3d6000fd5b50600080546040516001600160a01b039091169185156108fc02918691818181858888f19350505050158015610986573d6000803e3d6000fd5b5060005b600a860154811015610a4057600086600a0182815481106109ad576109ad611321565b600091825260208083209091015460068a01546001600160a01b0390911680845260088b0190925260409092206001015490925003610a375760048701546001600160a01b0382166000908152600889016020526040902054610a11908590611337565b610a1b919061134e565b6001600160a01b03821660009081526009890160205260409020555b5060010161098a565b50604051339083156108fc029084906000818181858888f19350505050158015610a6e573d6000803e3d6000fd5b5060078501805461ff001916610100179055600685015460405188917f209446440b3bc7b90cab90b2b8095e5f368dbec807cfbc01354237a11b45c63691610ab891815260200190565b60405180910390a2505050505050610ad06001600455565b50565b3373302ce12901038f313e621626372784ef3301aa6014610b06576040516265d69360e51b815260040160405180910390fd5b600355565b600082815260066020526040902060070154829060ff16610b3f576040516308fcb87160e41b815260040160405180910390fd5b34600003610b6057604051633e86adad60e21b815260040160405180910390fd5b600083815260066020908152604080832033845260080190915290206002015460ff1615610ba15760405163ed5b8a8960e01b815260040160405180910390fd5b60008381526006602090815260408083208151606081018352348082528185018881528285018781523380895260088601885295882093518455905160018085019190915590516002909301805460ff191693151593909317909255600a83018054928301815586529385200180546001600160a01b03191690921790915560038101805491939091610c359084906112ce565b90915550506040805134815260208101859052339186917f1b8a9031cb9351278d70a994f81536e9e08c91162e64f92b2fe4766fb7a891b491016104b7565b3373302ce12901038f313e621626372784ef3301aa6014610ca8576040516319b83d2d60e31b815260040160405180910390fd5b600082815260066020526040902060070154829060ff16610cdc576040516308fcb87160e41b815260040160405180910390fd5b811580610cf9575060008381526006602052604090206002015482115b15610d17576040516392e4a3e560e01b815260040160405180910390fd5b600083815260066020819052604091829020908101849055600701805460ff191690555183907f209446440b3bc7b90cab90b2b8095e5f368dbec807cfbc01354237a11b45c63690610d6c9085815260200190565b60405180910390a2505050565b3373302ce12901038f313e621626372784ef3301aa6014610dac576040516265d69360e51b815260040160405180910390fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b3373302ce12901038f313e621626372784ef3301aa6014610e02576040516319b83d2d60e31b815260040160405180910390fd5b60058054906000610e1283611383565b9091555050600554600090815260066020526040902080610e3385826113ea565b5060018101610e4284826113ea565b508151610e589060028301906020850190610f0a565b5060078101805460ff191660011790556005546040517fc4d79e090dbd35b18979cb0daf964422ff9a5547cc9af41b9101f2779b3735ca90610e9f908790879087906114a9565b60405180910390a250505050565b600260045403610f035760405162461bcd60e51b815260206004820152601f60248201527f5265656e7472616e637947756172643a207265656e7472616e742063616c6c00604482015260640160405180910390fd5b6002600455565b828054828255906000526020600020908101928215610f50579160200282015b82811115610f505782518290610f4090826113ea565b5091602001919060010190610f2a565b50610f5c929150610f60565b5090565b80821115610f5c576000610f748282610f7d565b50600101610f60565b508054610f89906112e7565b6000825580601f10610f99575050565b601f016020900490600052602060002090810190610ad091905b80821115610f5c5760008155600101610fb3565b600060208284031215610fd957600080fd5b5035919050565b6000815180845260005b8181101561100657602081850181015186830182015201610fea565b506000602082860101526020601f19601f83011685010191505092915050565b6101008152600061103b61010083018b610fe0565b828103602084015261104d818b610fe0565b604084019990995250506060810195909552608085019390935260a0840191909152151560c0830152151560e09091015292915050565b6000806040838503121561109757600080fd5b50508035926020909101359150565b6000602082840312156110b857600080fd5b81356001600160a01b03811681146110cf57600080fd5b9392505050565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff81118282101715611115576111156110d6565b604052919050565b600082601f83011261112e57600080fd5b813567ffffffffffffffff811115611148576111486110d6565b61115b601f8201601f19166020016110ec565b81815284602083860101111561117057600080fd5b816020850160208301376000918101602001919091529392505050565b6000806000606084860312156111a257600080fd5b833567ffffffffffffffff8111156111b957600080fd5b6111c58682870161111d565b935050602084013567ffffffffffffffff8111156111e257600080fd5b6111ee8682870161111d565b925050604084013567ffffffffffffffff81111561120b57600080fd5b8401601f8101861361121c57600080fd5b803567ffffffffffffffff811115611236576112366110d6565b8060051b611246602082016110ec565b9182526020818401810192908101908984111561126257600080fd5b6020850192505b838310156112a957823567ffffffffffffffff81111561128857600080fd5b6112978b60208389010161111d565b83525060209283019290910190611269565b80955050505050509250925092565b634e487b7160e01b600052601160045260246000fd5b808201808211156112e1576112e16112b8565b92915050565b600181811c908216806112fb57607f821691505b60208210810361131b57634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052603260045260246000fd5b80820281158282048414176112e1576112e16112b8565b60008261136b57634e487b7160e01b600052601260045260246000fd5b500490565b818103818111156112e1576112e16112b8565b600060018201611395576113956112b8565b5060010190565b601f8211156106c957806000526020600020601f840160051c810160208510156113c35750805b601f840160051c820191505b818110156113e357600081556001016113cf565b5050505050565b815167ffffffffffffffff811115611404576114046110d6565b6114188161141284546112e7565b8461139c565b6020601f82116001811461144c57600083156114345750848201515b600019600385901b1c1916600184901b1784556113e3565b600084815260208120601f198516915b8281101561147c578785015182556020948501946001909201910161145c565b508482101561149a5786840151600019600387901b60f8161c191681555b50505050600190811b01905550565b6060815260006114bc6060830186610fe0565b82810360208401526114ce8186610fe0565b9050828103604084015280845180835260208301915060208160051b8401016020870160005b8381101561152657601f19868403018552611510838351610fe0565b60209586019590935091909101906001016114f4565b5090999850505050505050505056fea2646970667358221220b0eef768445263c3d8b50581de13a41d6f61f166f799e688b5d5e098c191562a64736f6c634300081a0033",
+  "devdoc": {
+    "custom:security-contact": "franzquarshie@gmail.com",
+    "errors": {
+      "StakeChain__Unauthorized()": [
+        {
+          "custom:contact": "franzquarshie@gmail.com"
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "UpdatePlatformFee(uint256)": {
+        "details": "Administrative",
+        "params": {
+          "_amount": "New platform fee"
+        }
+      },
+      "UpdateSustainabilityFee(uint256)": {
+        "details": "Administrative",
+        "params": {
+          "_amount": "New Sustainability fee"
+        }
+      },
+      "UpdateSustainabilityFeeCollector(address)": {
+        "details": "Administrative",
+        "params": {
+          "newCollector": "Update sustainability fee collector"
+        }
+      }
+    },
+    "title": "StakeChain",
+    "version": 1
+  },
+  "userdoc": {
+    "errors": {
+      "StakeChain__Unauthorized()": [
+        {
+          "notice": "This contract controls the states of the StateChain contract"
+        }
+      ]
+    },
+    "kind": "user",
+    "methods": {
+      "PERCENTAGE()": {
+        "notice": "Base percentage used for calculations, representing 100%"
+      },
+      "PLATFORM_FEE()": {
+        "notice": "Fee percentage deducted from each transaction"
+      },
+      "PLATFORM_WALLET()": {
+        "notice": "Platform Account"
+      },
+      "SETTLE_REWARD()": {
+        "notice": "Settle reward percentage for the user who settles the bets"
+      },
+      "SUSTAINABILITY_FEE()": {
+        "notice": "Percentage that goes to environment sustainability"
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 731,
+        "contract": "contracts/StakeChain.sol:StakeChain",
+        "label": "SUSTAINABILITY_FEE_COLLECTOR",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 735,
+        "contract": "contracts/StakeChain.sol:StakeChain",
+        "label": "PLATFORM_FEE",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 739,
+        "contract": "contracts/StakeChain.sol:StakeChain",
+        "label": "SETTLE_REWARD",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 743,
+        "contract": "contracts/StakeChain.sol:StakeChain",
+        "label": "SUSTAINABILITY_FEE",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 10,
+        "contract": "contracts/StakeChain.sol:StakeChain",
+        "label": "_status",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 125,
+        "contract": "contracts/StakeChain.sol:StakeChain",
+        "label": "betEventCount",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 130,
+        "contract": "contracts/StakeChain.sol:StakeChain",
+        "label": "betEvents",
+        "offset": 0,
+        "slot": "6",
+        "type": "t_mapping(t_uint256,t_struct(BetEvent)123_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address)dyn_storage": {
+        "base": "t_address",
+        "encoding": "dynamic_array",
+        "label": "address[]",
+        "numberOfBytes": "32"
+      },
+      "t_array(t_string_storage)dyn_storage": {
+        "base": "t_string_storage",
+        "encoding": "dynamic_array",
+        "label": "string[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_struct(Bet)91_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct StakeChain.Bet)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Bet)91_storage"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_mapping(t_uint256,t_struct(BetEvent)123_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct StakeChain.BetEvent)",
+        "numberOfBytes": "32",
+        "value": "t_struct(BetEvent)123_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(Bet)91_storage": {
+        "encoding": "inplace",
+        "label": "struct StakeChain.Bet",
+        "members": [
+          {
+            "astId": 86,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "amount",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 88,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "outcome",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 90,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "claimed",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_struct(BetEvent)123_storage": {
+        "encoding": "inplace",
+        "label": "struct StakeChain.BetEvent",
+        "members": [
+          {
+            "astId": 93,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "title",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 95,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "description",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 98,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "options",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_array(t_string_storage)dyn_storage"
+          },
+          {
+            "astId": 100,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "totalPool",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 102,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "winnerPool",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 104,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "loserPool",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 106,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "outcome",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 108,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "betOpen",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_bool"
+          },
+          {
+            "astId": 110,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "betSettled",
+            "offset": 1,
+            "slot": "7",
+            "type": "t_bool"
+          },
+          {
+            "astId": 115,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "bets",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_mapping(t_address,t_struct(Bet)91_storage)"
+          },
+          {
+            "astId": 119,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "shares",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_mapping(t_address,t_uint256)"
+          },
+          {
+            "astId": 122,
+            "contract": "contracts/StakeChain.sol:StakeChain",
+            "label": "players",
+            "offset": 0,
+            "slot": "10",
+            "type": "t_array(t_address)dyn_storage"
+          }
+        ],
+        "numberOfBytes": "352"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
