@@ -14,7 +14,6 @@ error StakeChain__InvalidOutcome();
 error StakeChain__BetAmountZero();
 error StakeChain__BetAlreadyPlaced();
 error StakeChain__BetsAlreadySettled();
-error StakeChain__ShareAlreadyClaimed();
 error StakeChain__NoShareAvailable();
 
 /**
@@ -134,7 +133,7 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 		emit BetSettled(_betEventId, _outcome);
 	}
 
-	// Settle the bets and assign shares for a specific bet event
+	// Settle the bets and distribute winnings to the winners
 	function settleBets(
 		uint256 _betEventId
 	) external nonReentrant betIsClosed(_betEventId) {
@@ -172,13 +171,15 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 		// Send sustainability fee to SUSTAINABILITY_FEE_COLLECTOR
 		payable(SUSTAINABILITY_FEE_COLLECTOR).transfer(sustainabilityFee);
 
-		// Assign shares to winners
+		// Distribute remaining pool to winners
 		for (uint256 i = 0; i < _betEvent.players.length; i++) {
 			address player = _betEvent.players[i];
 			if (_betEvent.bets[player].outcome == _betEvent.outcome) {
-				_betEvent.shares[player] =
-					(_betEvent.bets[player].amount * remainingPool) /
-					_betEvent.winnerPool;
+				uint256 winnings = (_betEvent.bets[player].amount *
+					remainingPool) / _betEvent.winnerPool;
+				payable(player).transfer(
+					winnings + _betEvent.bets[player].amount
+				);
 			}
 		}
 
@@ -188,26 +189,6 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 		_betEvent.betSettled = true;
 
 		emit BetSettled(_betEventId, _betEvent.outcome);
-	}
-
-	// Users claim their shares for a specific  bet event
-	function claimShare(
-		uint256 _betEventId
-	) external betIsSettled(_betEventId) {
-		BetEvent storage _betEvent = betEvents[_betEventId];
-		if (_betEvent.bets[msg.sender].claimed)
-			revert StakeChain__ShareAlreadyClaimed();
-		uint256 share = _betEvent.shares[msg.sender];
-		if (share == 0) revert StakeChain__NoShareAvailable();
-
-		_betEvent.bets[msg.sender].claimed = true;
-		payable(msg.sender).transfer(share + _betEvent.bets[msg.sender].amount);
-
-		emit ShareClaimed(
-			_betEventId,
-			msg.sender,
-			share + _betEvent.bets[msg.sender].amount
-		);
 	}
 
 	// In case there are any leftover funds, the owner can withdraw them
