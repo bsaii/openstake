@@ -7,13 +7,13 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     StakeChain: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       abi: [
         {
           inputs: [
             {
               internalType: "address",
-              name: "_guessTokenAddress",
+              name: "_schainTokenAddress",
               type: "address",
             },
           ],
@@ -86,7 +86,7 @@ const deployedContracts = {
               type: "uint256",
             },
           ],
-          name: "GUESSDistributed",
+          name: "SCHAINDistributed",
           type: "event",
         },
         {
@@ -154,11 +154,6 @@ const deployedContracts = {
             },
             {
               internalType: "uint256",
-              name: "platformFee",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
               name: "settleReward",
               type: "uint256",
             },
@@ -213,29 +208,10 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "_platformFee",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "createBetEvent",
           outputs: [],
           stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "guessToken",
-          outputs: [
-            {
-              internalType: "contract IERC20",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
           type: "function",
         },
         {
@@ -267,6 +243,32 @@ const deployedContracts = {
           name: "placeBet",
           outputs: [],
           stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "platformFee",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "schainToken",
+          outputs: [
+            {
+              internalType: "contract IERC20",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {

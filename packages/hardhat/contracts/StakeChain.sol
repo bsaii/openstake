@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.26;
 
+import { StakeChain_States } from "./StakeChain_States.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract StakeChain {
@@ -25,8 +26,8 @@ contract StakeChain {
 
 	address public owner;
 	uint256 public betEventCount;
-	IERC20 public guessToken;
-	uint256 public platformFee; // Global platform fee (e.g., 2%)
+	IERC20 public schainToken;
+	uint256 public platformFee = 1000; // Global platform fee (e.g., 2%)
 	mapping(uint256 => BetEvent) public betEvents;
 
 	event BetPlaced(
@@ -41,12 +42,11 @@ contract StakeChain {
 		address indexed player,
 		uint256 amount
 	);
-	event GUESSDistributed(address indexed player, uint256 amount);
+	event SCHAINDistributed(address indexed player, uint256 amount);
 
-	constructor(address _guessTokenAddress, uint256 _platformFee) {
+	constructor(address _schainTokenAddress) {
 		owner = msg.sender;
-		guessToken = IERC20(_guessTokenAddress);
-		platformFee = _platformFee; // Set global platform fee
+		schainToken = IERC20(_schainTokenAddress);
 	}
 
 	modifier onlyOwner() {
@@ -148,8 +148,8 @@ contract StakeChain {
 					(_betEvent.bets[player].amount * _betEvent.loserPool) /
 					_betEvent.winnerPool;
 			}
-			// Assign GUESS tokens for both winners and losers
-			_distributeGUESS(player);
+			// Assign SCHAIN tokens for both winners and losers
+			_distributeSCHAIN(player);
 		}
 
 		// Transfer settle reward to the caller
@@ -177,11 +177,11 @@ contract StakeChain {
 		);
 	}
 
-	// Distribute GUESS tokens (now using the ERC20 token standard)
-	function _distributeGUESS(address player) internal {
-		uint256 guessTokens = 100 * 10 ** 18; // Example: distribute 100 GUESS tokens, adjust as needed
-		guessToken.transfer(player, guessTokens);
-		emit GUESSDistributed(player, guessTokens);
+	// Distribute SCHAIN tokens (now using the ERC20 token standard)
+	function _distributeSCHAIN(address player) internal {
+		uint256 schainTokens = 100 * 10 ** 18; // Example: distribute 100 SCHAIN tokens, adjust as needed
+		schainToken.transfer(player, schainTokens);
+		emit SCHAINDistributed(player, schainTokens);
 	}
 
 	// In case there are any leftover funds, the owner can withdraw them
