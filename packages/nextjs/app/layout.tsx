@@ -9,12 +9,15 @@ export const metadata = getMetadata({
   description: "Built with 🏗 Scaffold-ETH 2",
 });
 
-const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
+const ScaffoldEthApp = ({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
       <body>
         <ThemeProvider enableSystem>
-          <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
+          <ScaffoldEthAppWithProviders>
+            {children}
+            {modal}
+          </ScaffoldEthAppWithProviders>
         </ThemeProvider>
       </body>
     </html>

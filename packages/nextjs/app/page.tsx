@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -11,6 +12,8 @@ const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
   const [openStake, setOpenStake] = useState(false);
   const [stakeState, setStakeState] = useState<boolean>();
+
+  const { push } = useRouter();
 
   const handleStake = () => {
     console.log(stakeState);
@@ -36,7 +39,12 @@ const Home: NextPage = () => {
               {openStake ? (
                 <div className="card-body">
                   <div className="w-full flex justify-between">
-                    <button className="btn">Ai Research</button>
+                    <button
+                      className="btn"
+                      onClick={() => push(`/ai?search=${"Ethereum dips below $2000 by Sept 30?"}`)}
+                    >
+                      Ai Research
+                    </button>
                     <button className="btn btn-circle justify-center" onClick={() => setOpenStake(false)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
