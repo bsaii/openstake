@@ -166,10 +166,16 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 			settlerReward;
 
 		// Send platform fee to PLATFORM_WALLET
-		payable(PLATFORM_WALLET).transfer(platformFee);
+		(bool platformFeeSent, ) = PLATFORM_WALLET.call{ value: platformFee }(
+			""
+		);
+		require(platformFeeSent, "Platform fee transfer failed");
 
 		// Send sustainability fee to SUSTAINABILITY_FEE_COLLECTOR
-		payable(SUSTAINABILITY_FEE_COLLECTOR).transfer(sustainabilityFee);
+		(bool sustainabilityFeeSent, ) = SUSTAINABILITY_FEE_COLLECTOR.call{
+			value: sustainabilityFee
+		}("");
+		require(sustainabilityFeeSent, "Sustainability fee transfer failed");
 
 		// Distribute remaining pool to winners
 		for (uint256 i = 0; i < _betEvent.players.length; i++) {
@@ -177,14 +183,16 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 			if (_betEvent.bets[player].outcome == _betEvent.outcome) {
 				uint256 winnings = (_betEvent.bets[player].amount *
 					remainingPool) / _betEvent.winnerPool;
-				payable(player).transfer(
-					winnings + _betEvent.bets[player].amount
-				);
+				(bool winningsSent, ) = player.call{
+					value: winnings + _betEvent.bets[player].amount
+				}("");
+				require(winningsSent, "Winnings transfer failed");
 			}
 		}
 
 		// Transfer settle reward to the caller
-		payable(msg.sender).transfer(settlerReward);
+		(bool rewardSent, ) = msg.sender.call{ value: settlerReward }("");
+		require(rewardSent, "Settler reward transfer failed");
 
 		_betEvent.betSettled = true;
 
