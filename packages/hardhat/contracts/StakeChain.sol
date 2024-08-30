@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
+/// @notice This contract allows users to place bets
+/// @custom:contact franzquarshie@gmail.com
 
 import { StakeChain_States } from "./StakeChain_States.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -12,6 +14,9 @@ contract StakeChain {
 	}
 
 	struct BetEvent {
+		string title;
+		string description;
+		string[] options;
 		uint256 totalPool;
 		uint256 winnerPool;
 		uint256 loserPool;
@@ -43,6 +48,12 @@ contract StakeChain {
 		uint256 amount
 	);
 	event SCHAINDistributed(address indexed player, uint256 amount);
+	event BetEventCreated(
+		uint256 indexed betEventId,
+		string title,
+		string description,
+		string[] options
+	);
 
 	error StakeChain__OnlyOwner();
 	error StakeChain__BetNotOpen();
@@ -81,11 +92,21 @@ contract StakeChain {
 		_;
 	}
 
-	// Create a new betting event
-	function createBetEvent() external onlyOwner {
+	// Create a new betting event with title, description, and options
+	function createBetEvent(
+		string memory _title,
+		string memory _description,
+		string[] memory _options
+	) external onlyOwner {
 		betEventCount++;
-		betEvents[betEventCount].settleReward = 1; // 0.01% of the pool
-		betEvents[betEventCount].betOpen = true;
+		BetEvent storage newBetEvent = betEvents[betEventCount];
+		newBetEvent.title = _title;
+		newBetEvent.description = _description;
+		newBetEvent.options = _options;
+		newBetEvent.settleReward = 1; // 0.01% of the pool
+		newBetEvent.betOpen = true;
+
+		emit BetEventCreated(betEventCount, _title, _description, _options);
 	}
 
 	// Players can place their bets
@@ -111,7 +132,8 @@ contract StakeChain {
 		uint256 _betEventId,
 		uint256 _outcome
 	) external onlyOwner betIsOpen(_betEventId) {
-		if (_outcome != 1 && _outcome != 2) revert StakeChain__InvalidOutcome();
+		if (_outcome == 0 || _outcome > betEvents[_betEventId].options.length)
+			revert StakeChain__InvalidOutcome();
 		betEvents[_betEventId].outcome = _outcome;
 		betEvents[_betEventId].betOpen = false;
 		emit BetSettled(_betEventId, _outcome);
@@ -135,9 +157,7 @@ contract StakeChain {
 		}
 
 		// Deduct platform fees
-		// uint256 fee = (_betEvent.totalPool * platformFee) / 100;
 		uint256 reward = (_betEvent.totalPool * _betEvent.settleReward) / 10000;
-		// uint256 poolAfterFee = _betEvent.totalPool - fee - reward;
 
 		// Assign shares to winners
 		for (uint256 i = 0; i < _betEvent.players.length; i++) {
