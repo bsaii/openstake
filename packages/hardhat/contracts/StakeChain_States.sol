@@ -47,7 +47,7 @@ contract StakeChain_States {
 
 	/**
 	 * @dev Administrative
-	 * @param _amount Update sustainability fee collector
+	 * @param newCollector Update sustainability fee collector
 	 */
 	function UpdateSustainabilityFeeCollector(
 		address newCollector
