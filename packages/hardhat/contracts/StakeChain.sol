@@ -4,7 +4,6 @@ pragma solidity 0.8.26;
 /// @custom:contact franzquarshie@gmail.com
 
 import { StakeChain_States } from "./StakeChain_States.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract StakeChain is StakeChain_States {
 	struct Bet {
@@ -30,8 +29,7 @@ contract StakeChain is StakeChain_States {
 
 	address public owner;
 	uint256 public betEventCount;
-	IERC20 public schainToken;
-	uint256 public platformFee = 1000; // Global platform fee (e.g., 2%)
+
 	mapping(uint256 => BetEvent) public betEvents;
 
 	event BetPlaced(
@@ -65,13 +63,8 @@ contract StakeChain is StakeChain_States {
 	error StakeChain__ShareAlreadyClaimed();
 	error StakeChain__NoShareAvailable();
 
-	constructor(address _schainTokenAddress) {
-		owner = msg.sender;
-		schainToken = IERC20(_schainTokenAddress);
-	}
-
 	modifier onlyOwner() {
-		if (msg.sender != owner) revert StakeChain__OnlyOwner();
+		if (msg.sender != OWNER) revert StakeChain__OnlyOwner();
 		_;
 	}
 
@@ -165,8 +158,6 @@ contract StakeChain is StakeChain_States {
 					(_betEvent.bets[player].amount * _betEvent.loserPool) /
 					_betEvent.winnerPool;
 			}
-			// Assign SCHAIN tokens for both winners and losers
-			_distributeSCHAIN(player);
 		}
 
 		// Transfer settle reward to the caller
@@ -195,17 +186,10 @@ contract StakeChain is StakeChain_States {
 		);
 	}
 
-	// Distribute SCHAIN tokens (now using the ERC20 token standard)
-	function _distributeSCHAIN(address player) internal {
-		uint256 schainTokens = 100 * 10 ** 18; // Example: distribute 100 SCHAIN tokens, adjust as needed
-		schainToken.transfer(player, schainTokens);
-		emit SCHAINDistributed(player, schainTokens);
-	}
-
 	// In case there are any leftover funds, the owner can withdraw them
 	function withdrawFunds(
 		uint256 _betEventId
 	) external onlyOwner betIsSettled(_betEventId) {
-		payable(owner).transfer(address(this).balance);
+		payable(OWNER).transfer(address(this).balance);
 	}
 }

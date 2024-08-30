@@ -14,6 +14,7 @@ contract StakeChain_States {
 	/// @notice Base percentage used for calculations, representing 100%
 	uint256 public constant PERCENTAGE = 100 ether;
 	address public constant OWNER = 0xFFD0a549e6982FB553302274d342dD6673b0deEE;
+
 	address public SUSTAINABILITY_FEE_COLLECTOR =
 		0xFFD0a549e6982FB553302274d342dD6673b0deEE;
 
@@ -23,9 +24,6 @@ contract StakeChain_States {
 	uint256 public SETTLE_REWARD = 1 ether;
 	/// @notice Percentage that goes to environment sustainability
 	uint256 public SUSTAINABILITY_FEE = 0.5 ether;
-
-	/// @notice $SCHAIN amount
-	uint256 public SCHAIN = 0.01 ether;
 
 	/// @notice Platform Account
 	address public constant PLATFORM_WALLET =
