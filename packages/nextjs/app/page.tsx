@@ -12,7 +12,9 @@ const Home: NextPage = () => {
   const [openStake, setOpenStake] = useState(false);
   const [stakeState, setStakeState] = useState<boolean>();
 
-  console.log(stakeState);
+  const handleStake = () => {
+    console.log(stakeState);
+  };
 
   return (
     <>
@@ -20,7 +22,7 @@ const Home: NextPage = () => {
         <div className="px-5">
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">OpenStake</span>
+            <span className="block text-4xl font-bold">StakeChain</span>
           </h1>
           <div className="flex justify-center items-center space-x-2 flex-col sm:flex-row">
             <p className="my-2 font-medium">Connected Address:</p>
@@ -33,8 +35,27 @@ const Home: NextPage = () => {
             <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
               {openStake ? (
                 <div className="card-body">
-                  <div className="flex">
+                  <div className="w-full flex justify-between">
+                    <button className="btn">Ai Research</button>
+                    <button className="btn btn-circle justify-center" onClick={() => setOpenStake(false)}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col gap-y-4">
                     <input type="number" placeholder="0.001" className="input input-bordered w-full max-w-xs" />
+                    <input type="range" min={0} max="100" value="40" className="range" />
+                    <button className="btn btn-primary" onClick={handleStake}>
+                      {stakeState ? "Yes" : "No"}
+                    </button>
                   </div>
                 </div>
               ) : (
