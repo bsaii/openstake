@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
@@ -8,6 +9,12 @@ import { Address } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
+  const [openStake, setOpenStake] = useState(false);
+  const [stakeState, setStakeState] = useState<boolean>();
+
+  const handleStake = () => {
+    console.log(stakeState);
+  };
 
   return (
     <>
@@ -15,28 +22,130 @@ const Home: NextPage = () => {
         <div className="px-5">
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
+            <span className="block text-4xl font-bold">StakeChain</span>
           </h1>
           <div className="flex justify-center items-center space-x-2 flex-col sm:flex-row">
             <p className="my-2 font-medium">Connected Address:</p>
             <Address address={connectedAddress} />
           </div>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
+        </div>
+
+        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+          <div className="flex flex-wrap gap-4">
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              {openStake ? (
+                <div className="card-body">
+                  <div className="w-full flex justify-between">
+                    <button className="btn">Ai Research</button>
+                    <button className="btn btn-circle justify-center" onClick={() => setOpenStake(false)}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col gap-y-4">
+                    <input type="number" placeholder="0.001" className="input input-bordered w-full max-w-xs" />
+                    <input type="range" min={0} max="100" value="40" className="range" />
+                    <button className="btn btn-primary" onClick={handleStake}>
+                      {stakeState ? "Yes" : "No"}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="card-body">
+                  <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                  <p>100 Stakes</p>
+                  <div className="card-actions justify-end w-full gap-x-3">
+                    <button
+                      className="btn btn-success"
+                      onClick={() => {
+                        setOpenStake(true);
+                        setStakeState(true);
+                      }}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      className="btn btn-error"
+                      onClick={() => {
+                        setOpenStake(true);
+                        setStakeState(false);
+                      }}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+            <div className="card bg-base-100 w-96 shadow-xl flex flex-wrap">
+              <div className="card-body">
+                <h2 className="card-title">Ethereum dips below $2000 by Sept 30?</h2>
+                <p>100 Stakes</p>
+                <div className="card-actions justify-end w-full gap-x-3">
+                  <button className="btn btn-success">Yes</button>
+                  <button className="btn btn-error">No</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
