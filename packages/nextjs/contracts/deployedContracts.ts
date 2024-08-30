@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     StakeChain: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
       abi: [
         {
           inputs: [],
@@ -46,17 +46,7 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "StakeChain__NoShareAvailable",
-          type: "error",
-        },
-        {
-          inputs: [],
           name: "StakeChain__OnlyOwner",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "StakeChain__ShareAlreadyClaimed",
           type: "error",
         },
         {
@@ -384,19 +374,6 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "_betEventId",
-              type: "uint256",
-            },
-          ],
-          name: "claimShare",
-          outputs: [],
-          stateMutability: "nonpayable",
           type: "function",
         },
         {
