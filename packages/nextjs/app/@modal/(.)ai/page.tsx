@@ -13,9 +13,9 @@ export default function Page() {
   const { back } = useRouter();
 
   const search = searchParams.get("search");
-  console.log(search, answer, results);
 
   useEffect(() => {
+    if (!search) return;
     async function travilySearch() {
       setLoading(true);
       const res = await fetch("https://api.tavily.com/search", {
@@ -24,7 +24,7 @@ export default function Page() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          query: "Ethereum dips below $2000 by Sept 30?",
+          query: search,
           api_key: process.env.NEXT_PUBLIC_TRAVILY_API_KEY,
           include_answer: true,
         }),
@@ -50,7 +50,7 @@ export default function Page() {
     }
 
     travilySearch();
-  }, []);
+  }, [search]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
