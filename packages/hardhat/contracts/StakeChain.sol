@@ -44,37 +44,40 @@ contract StakeChain {
 	);
 	event SCHAINDistributed(address indexed player, uint256 amount);
 
+	error StakeChain__OnlyOwner();
+	error StakeChain__BetNotOpen();
+	error StakeChain__BetStillOpen();
+	error StakeChain__BetNotSettled();
+	error StakeChain__InvalidOutcome();
+	error StakeChain__BetAmountZero();
+	error StakeChain__BetAlreadyPlaced();
+	error StakeChain__BetsAlreadySettled();
+	error StakeChain__ShareAlreadyClaimed();
+	error StakeChain__NoShareAvailable();
+
 	constructor(address _schainTokenAddress) {
 		owner = msg.sender;
 		schainToken = IERC20(_schainTokenAddress);
 	}
 
 	modifier onlyOwner() {
-		require(msg.sender == owner, "Only the owner can call this function");
+		if (msg.sender != owner) revert StakeChain__OnlyOwner();
 		_;
 	}
 
 	modifier betIsOpen(uint256 _betEventId) {
-		require(
-			betEvents[_betEventId].betOpen,
-			"Betting is not open for this bet event"
-		);
+		if (!betEvents[_betEventId].betOpen) revert StakeChain__BetNotOpen();
 		_;
 	}
 
 	modifier betIsClosed(uint256 _betEventId) {
-		require(
-			!betEvents[_betEventId].betOpen,
-			"Betting is still open for this bet event"
-		);
+		if (betEvents[_betEventId].betOpen) revert StakeChain__BetStillOpen();
 		_;
 	}
 
 	modifier betIsSettled(uint256 _betEventId) {
-		require(
-			betEvents[_betEventId].betSettled,
-			"Betting is not settled yet for this bet event"
-		);
+		if (!betEvents[_betEventId].betSettled)
+			revert StakeChain__BetNotSettled();
 		_;
 	}
 
@@ -90,11 +93,9 @@ contract StakeChain {
 		uint256 _betEventId,
 		uint256 _outcome
 	) external payable betIsOpen(_betEventId) {
-		require(msg.value > 0, "Bet amount must be greater than zero");
-		require(
-			!betEvents[_betEventId].bets[msg.sender].claimed,
-			"Bet already placed"
-		);
+		if (msg.value == 0) revert StakeChain__BetAmountZero();
+		if (betEvents[_betEventId].bets[msg.sender].claimed)
+			revert StakeChain__BetAlreadyPlaced();
 
 		BetEvent storage _betEvent = betEvents[_betEventId];
 
@@ -110,7 +111,7 @@ contract StakeChain {
 		uint256 _betEventId,
 		uint256 _outcome
 	) external onlyOwner betIsOpen(_betEventId) {
-		require(_outcome == 1 || _outcome == 2, "Invalid outcome");
+		if (_outcome != 1 && _outcome != 2) revert StakeChain__InvalidOutcome();
 		betEvents[_betEventId].outcome = _outcome;
 		betEvents[_betEventId].betOpen = false;
 		emit BetSettled(_betEventId, _outcome);
@@ -118,10 +119,8 @@ contract StakeChain {
 
 	// Settle the bets and assign shares for a specific  bet event
 	function settleBets(uint256 _betEventId) external betIsClosed(_betEventId) {
-		require(
-			!betEvents[_betEventId].betSettled,
-			"Bets already settled for this bet event"
-		);
+		if (betEvents[_betEventId].betSettled)
+			revert StakeChain__BetsAlreadySettled();
 
 		BetEvent storage _betEvent = betEvents[_betEventId];
 
@@ -163,9 +162,10 @@ contract StakeChain {
 		uint256 _betEventId
 	) external betIsSettled(_betEventId) {
 		BetEvent storage _betEvent = betEvents[_betEventId];
-		require(!_betEvent.bets[msg.sender].claimed, "Share already claimed");
+		if (_betEvent.bets[msg.sender].claimed)
+			revert StakeChain__ShareAlreadyClaimed();
 		uint256 share = _betEvent.shares[msg.sender];
-		require(share > 0, "No share available");
+		if (share == 0) revert StakeChain__NoShareAvailable();
 
 		_betEvent.bets[msg.sender].claimed = true;
 		payable(msg.sender).transfer(share + _betEvent.bets[msg.sender].amount);
