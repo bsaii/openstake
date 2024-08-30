@@ -7,19 +7,8 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     StakeChain: {
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
       abi: [
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_schainTokenAddress",
-              type: "address",
-            },
-          ],
-          stateMutability: "nonpayable",
-          type: "constructor",
-        },
         {
           inputs: [],
           name: "StakeChain__BetAlreadyPlaced",
@@ -254,19 +243,6 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "SCHAIN",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
           name: "SETTLE_REWARD",
           outputs: [
             {
@@ -333,9 +309,9 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "_amount",
-              type: "uint256",
+              internalType: "address",
+              name: "newCollector",
+              type: "address",
             },
           ],
           name: "UpdateSustainabilityFeeCollector",
@@ -465,19 +441,6 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "owner",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
           inputs: [
             {
               internalType: "uint256",
@@ -493,32 +456,6 @@ const deployedContracts = {
           name: "placeBet",
           outputs: [],
           stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "platformFee",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "schainToken",
-          outputs: [
-            {
-              internalType: "contract IERC20",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
           type: "function",
         },
         {
@@ -553,7 +490,6 @@ const deployedContracts = {
         PERCENTAGE: "contracts/StakeChain_States.sol",
         PLATFORM_FEE: "contracts/StakeChain_States.sol",
         PLATFORM_WALLET: "contracts/StakeChain_States.sol",
-        SCHAIN: "contracts/StakeChain_States.sol",
         SETTLE_REWARD: "contracts/StakeChain_States.sol",
         SUSTAINABILITY_FEE: "contracts/StakeChain_States.sol",
         SUSTAINABILITY_FEE_COLLECTOR: "contracts/StakeChain_States.sol",
