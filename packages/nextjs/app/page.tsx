@@ -19,6 +19,8 @@ const Home: NextPage = () => {
     console.log(stakeState);
   };
 
+  const [rangeValue, setRangeValue] = useState(0.0);
+
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">
@@ -59,8 +61,25 @@ const Home: NextPage = () => {
                   </div>
 
                   <div className="flex flex-col gap-y-4">
-                    <input type="number" placeholder="0.001" className="input input-bordered w-full max-w-xs" />
-                    <input type="range" min={0} max="100" value="40" className="range" />
+                    <input
+                      type="number"
+                      placeholder="0.001"
+                      value={rangeValue}
+                      step="any"
+                      onChange={e => setRangeValue(parseFloat(e.target.value))}
+                      max={100.0}
+                      min={0.0}
+                      className="input input-bordered w-full max-w-xs"
+                    />
+                    <input
+                      type="range"
+                      min={0.0}
+                      max={100.0}
+                      step={0.001}
+                      value={rangeValue}
+                      className="range"
+                      onChange={e => setRangeValue(parseFloat(e.target.value))}
+                    />
                     <button className="btn btn-primary" onClick={handleStake}>
                       {stakeState ? "Yes" : "No"}
                     </button>
