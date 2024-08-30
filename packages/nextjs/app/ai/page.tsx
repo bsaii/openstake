@@ -11,8 +11,9 @@ export default function AiResearch() {
   const searchParams = useSearchParams();
 
   const search = searchParams.get("search");
-  console.log(search, answer, results);
+
   useEffect(() => {
+    if (!search) return;
     async function travilySearch() {
       setLoading(true);
       const res = await fetch("https://api.tavily.com/search", {
@@ -21,7 +22,7 @@ export default function AiResearch() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          query: "Ethereum dips below $2000 by Sept 30?",
+          query: search,
           api_key: process.env.NEXT_PUBLIC_TRAVILY_API_KEY,
           include_answer: true,
         }),
@@ -47,9 +48,12 @@ export default function AiResearch() {
     }
 
     travilySearch();
-  }, []);
+  }, [search]);
+
   return (
     <div className="w-screen h-full flex justify-center items-center py-12">
+      <h3 className="font-bold text-lg">AI Research</h3>
+      <p className="py-4">{answer}</p>
       {loading && (
         <div className="grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
           <svg
