@@ -13,7 +13,7 @@ error StakeChain__Unauthorized();
 contract StakeChain_States {
 	/// @notice Base percentage used for calculations, representing 100%
 	uint256 public constant PERCENTAGE = 100 ether;
-	address public constant OWNER = 0xFFD0a549e6982FB553302274d342dD6673b0deEE;
+	address public constant OWNER = 0xd54d09a4154F47ba8a82e6BDa548bcbc348a83E2;
 
 	address public SUSTAINABILITY_FEE_COLLECTOR =
 		0xFFD0a549e6982FB553302274d342dD6673b0deEE;
@@ -21,13 +21,13 @@ contract StakeChain_States {
 	/// @notice Fee percentage deducted from each transaction
 	uint256 public PLATFORM_FEE = 1 ether;
 	/// @notice Settle reward percentage for the user who settles the bets
-	uint256 public SETTLE_REWARD = 1 ether;
+	uint256 public SETTLE_REWARD = 0.01 ether;
 	/// @notice Percentage that goes to environment sustainability
 	uint256 public SUSTAINABILITY_FEE = 0.5 ether;
 
 	/// @notice Platform Account
 	address public constant PLATFORM_WALLET =
-		0xFFD0a549e6982FB553302274d342dD6673b0deEE;
+		0xd54d09a4154F47ba8a82e6BDa548bcbc348a83E2;
 
 	/**
 	 * @dev Administrative

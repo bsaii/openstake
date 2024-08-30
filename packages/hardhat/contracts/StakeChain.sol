@@ -4,8 +4,24 @@ pragma solidity 0.8.26;
 /// @custom:contact franzquarshie@gmail.com
 
 import { StakeChain_States } from "./StakeChain_States.sol";
+import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract StakeChain is StakeChain_States {
+error StakeChain__OnlyOwner();
+error StakeChain__BetNotOpen();
+error StakeChain__BetStillOpen();
+error StakeChain__BetNotSettled();
+error StakeChain__InvalidOutcome();
+error StakeChain__BetAmountZero();
+error StakeChain__BetAlreadyPlaced();
+error StakeChain__BetsAlreadySettled();
+error StakeChain__ShareAlreadyClaimed();
+error StakeChain__NoShareAvailable();
+
+/**
+ * @title StakeChain
+ * @custom:security-contact franzquarshie@gmail.com
+ */
+contract StakeChain is StakeChain_States, ReentrancyGuard {
 	struct Bet {
 		uint256 amount;
 		uint256 outcome;
@@ -50,17 +66,6 @@ contract StakeChain is StakeChain_States {
 		string description,
 		string[] options
 	);
-
-	error StakeChain__OnlyOwner();
-	error StakeChain__BetNotOpen();
-	error StakeChain__BetStillOpen();
-	error StakeChain__BetNotSettled();
-	error StakeChain__InvalidOutcome();
-	error StakeChain__BetAmountZero();
-	error StakeChain__BetAlreadyPlaced();
-	error StakeChain__BetsAlreadySettled();
-	error StakeChain__ShareAlreadyClaimed();
-	error StakeChain__NoShareAvailable();
 
 	modifier onlyOwner() {
 		if (msg.sender != OWNER) revert StakeChain__OnlyOwner();
@@ -130,7 +135,9 @@ contract StakeChain is StakeChain_States {
 	}
 
 	// Settle the bets and assign shares for a specific bet event
-	function settleBets(uint256 _betEventId) external betIsClosed(_betEventId) {
+	function settleBets(
+		uint256 _betEventId
+	) external nonReentrant betIsClosed(_betEventId) {
 		if (betEvents[_betEventId].betSettled)
 			revert StakeChain__BetsAlreadySettled();
 
