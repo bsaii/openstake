@@ -4,7 +4,6 @@ pragma solidity 0.8.26;
 /// @custom:contact franzquarshie@gmail.com
 
 import { StakeChain_States } from "./StakeChain_States.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract StakeChain is StakeChain_States {
 	struct Bet {
@@ -28,10 +27,8 @@ contract StakeChain is StakeChain_States {
 		address[] players;
 	}
 
-	address public owner;
 	uint256 public betEventCount;
-	IERC20 public schainToken;
-	uint256 public platformFee = 1000; // Global platform fee (e.g., 2%)
+
 	mapping(uint256 => BetEvent) public betEvents;
 
 	event BetPlaced(
@@ -65,13 +62,8 @@ contract StakeChain is StakeChain_States {
 	error StakeChain__ShareAlreadyClaimed();
 	error StakeChain__NoShareAvailable();
 
-	constructor(address _schainTokenAddress) {
-		owner = msg.sender;
-		schainToken = IERC20(_schainTokenAddress);
-	}
-
 	modifier onlyOwner() {
-		if (msg.sender != owner) revert StakeChain__OnlyOwner();
+		if (msg.sender != OWNER) revert StakeChain__OnlyOwner();
 		_;
 	}
 
@@ -137,7 +129,7 @@ contract StakeChain is StakeChain_States {
 		emit BetSettled(_betEventId, _outcome);
 	}
 
-	// Settle the bets and assign shares for a specific  bet event
+	// Settle the bets and assign shares for a specific bet event
 	function settleBets(uint256 _betEventId) external betIsClosed(_betEventId) {
 		if (betEvents[_betEventId].betSettled)
 			revert StakeChain__BetsAlreadySettled();
@@ -154,25 +146,41 @@ contract StakeChain is StakeChain_States {
 			}
 		}
 
-		// Deduct platform fees
-		uint256 reward = (_betEvent.totalPool * SETTLE_REWARD) / PERCENTAGE;
+		// Calculate and deduct platform fees
+		uint256 platformFee = (_betEvent.totalPool * PLATFORM_FEE) / PERCENTAGE;
+		uint256 sustainabilityFee = (_betEvent.totalPool * SUSTAINABILITY_FEE) /
+			PERCENTAGE;
+		uint256 settlerReward = (_betEvent.totalPool * SETTLE_REWARD) /
+			PERCENTAGE;
+
+		// Calculate the remaining pool after fees
+		uint256 remainingPool = _betEvent.totalPool -
+			platformFee -
+			sustainabilityFee -
+			settlerReward;
+
+		// Send platform fee to PLATFORM_WALLET
+		payable(PLATFORM_WALLET).transfer(platformFee);
+
+		// Send sustainability fee to SUSTAINABILITY_FEE_COLLECTOR
+		payable(SUSTAINABILITY_FEE_COLLECTOR).transfer(sustainabilityFee);
 
 		// Assign shares to winners
 		for (uint256 i = 0; i < _betEvent.players.length; i++) {
 			address player = _betEvent.players[i];
 			if (_betEvent.bets[player].outcome == _betEvent.outcome) {
 				_betEvent.shares[player] =
-					(_betEvent.bets[player].amount * _betEvent.loserPool) /
+					(_betEvent.bets[player].amount * remainingPool) /
 					_betEvent.winnerPool;
 			}
-			// Assign SCHAIN tokens for both winners and losers
-			_distributeSCHAIN(player);
 		}
 
 		// Transfer settle reward to the caller
-		payable(msg.sender).transfer(reward);
+		payable(msg.sender).transfer(settlerReward);
 
 		_betEvent.betSettled = true;
+
+		emit BetSettled(_betEventId, _betEvent.outcome);
 	}
 
 	// Users claim their shares for a specific  bet event
@@ -195,17 +203,10 @@ contract StakeChain is StakeChain_States {
 		);
 	}
 
-	// Distribute SCHAIN tokens (now using the ERC20 token standard)
-	function _distributeSCHAIN(address player) internal {
-		uint256 schainTokens = 100 * 10 ** 18; // Example: distribute 100 SCHAIN tokens, adjust as needed
-		schainToken.transfer(player, schainTokens);
-		emit SCHAINDistributed(player, schainTokens);
-	}
-
 	// In case there are any leftover funds, the owner can withdraw them
 	function withdrawFunds(
 		uint256 _betEventId
 	) external onlyOwner betIsSettled(_betEventId) {
-		payable(owner).transfer(address(this).balance);
+		payable(OWNER).transfer(address(this).balance);
 	}
 }

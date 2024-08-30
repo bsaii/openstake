@@ -13,7 +13,7 @@ const deployStakeChainContract: DeployFunction = async function (hre: HardhatRun
 
   await deploy("StakeChain", {
     from: deployer,
-    args: ["0xB466169933aFcd2FaBbbA02B122cA5E832381E38"],
+    args: ["0xB11A8eb867df90F09aDbeb4F550e1f8f66F1c5f2"],
     log: true,
     autoMine: true,
   });
