@@ -27,7 +27,6 @@ contract StakeChain is StakeChain_States {
 		address[] players;
 	}
 
-	address public owner;
 	uint256 public betEventCount;
 
 	mapping(uint256 => BetEvent) public betEvents;
@@ -130,7 +129,7 @@ contract StakeChain is StakeChain_States {
 		emit BetSettled(_betEventId, _outcome);
 	}
 
-	// Settle the bets and assign shares for a specific  bet event
+	// Settle the bets and assign shares for a specific bet event
 	function settleBets(uint256 _betEventId) external betIsClosed(_betEventId) {
 		if (betEvents[_betEventId].betSettled)
 			revert StakeChain__BetsAlreadySettled();
@@ -147,23 +146,41 @@ contract StakeChain is StakeChain_States {
 			}
 		}
 
-		// Deduct platform fees
-		uint256 reward = (_betEvent.totalPool * SETTLE_REWARD) / PERCENTAGE;
+		// Calculate and deduct platform fees
+		uint256 platformFee = (_betEvent.totalPool * PLATFORM_FEE) / PERCENTAGE;
+		uint256 sustainabilityFee = (_betEvent.totalPool * SUSTAINABILITY_FEE) /
+			PERCENTAGE;
+		uint256 settlerReward = (_betEvent.totalPool * SETTLE_REWARD) /
+			PERCENTAGE;
+
+		// Calculate the remaining pool after fees
+		uint256 remainingPool = _betEvent.totalPool -
+			platformFee -
+			sustainabilityFee -
+			settlerReward;
+
+		// Send platform fee to PLATFORM_WALLET
+		payable(PLATFORM_WALLET).transfer(platformFee);
+
+		// Send sustainability fee to SUSTAINABILITY_FEE_COLLECTOR
+		payable(SUSTAINABILITY_FEE_COLLECTOR).transfer(sustainabilityFee);
 
 		// Assign shares to winners
 		for (uint256 i = 0; i < _betEvent.players.length; i++) {
 			address player = _betEvent.players[i];
 			if (_betEvent.bets[player].outcome == _betEvent.outcome) {
 				_betEvent.shares[player] =
-					(_betEvent.bets[player].amount * _betEvent.loserPool) /
+					(_betEvent.bets[player].amount * remainingPool) /
 					_betEvent.winnerPool;
 			}
 		}
 
 		// Transfer settle reward to the caller
-		payable(msg.sender).transfer(reward);
+		payable(msg.sender).transfer(settlerReward);
 
 		_betEvent.betSettled = true;
+
+		emit BetSettled(_betEventId, _betEvent.outcome);
 	}
 
 	// Users claim their shares for a specific  bet event

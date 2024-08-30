@@ -30,7 +30,7 @@ contract StakeChain_States {
 		0xFFD0a549e6982FB553302274d342dD6673b0deEE;
 
 	/**
-	 * @dev Admininistrative
+	 * @dev Administrative
 	 * @param _amount New platform fee
 	 */
 	function UpdatePlatformFee(uint256 _amount) public _isOwner {
@@ -38,7 +38,7 @@ contract StakeChain_States {
 	}
 
 	/**
-	 * @dev Admininistrative
+	 * @dev Administrative
 	 * @param _amount New Sustainability fee
 	 */
 	function UpdateSustainabilityFee(uint256 _amount) public _isOwner {
@@ -46,11 +46,13 @@ contract StakeChain_States {
 	}
 
 	/**
-	 * @dev Admininistrative
+	 * @dev Administrative
 	 * @param _amount Update sustainability fee collector
 	 */
-	function UpdateSustainabilityFeeCollector(uint256 _amount) public _isOwner {
-		SUSTAINABILITY_FEE = _amount;
+	function UpdateSustainabilityFeeCollector(
+		address newCollector
+	) public _isOwner {
+		SUSTAINABILITY_FEE_COLLECTOR = newCollector;
 	}
 
 	modifier _isOwner() {
