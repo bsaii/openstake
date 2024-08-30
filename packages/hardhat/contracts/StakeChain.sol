@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.26;
+/// @notice This contract allows users to place bets
+/// @custom:contact franzquarshie@gmail.com
 
+import { StakeChain_States } from "./StakeChain_States.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract StakeChain {
+contract StakeChain is StakeChain_States {
 	struct Bet {
 		uint256 amount;
 		uint256 outcome;
@@ -11,10 +14,12 @@ contract StakeChain {
 	}
 
 	struct BetEvent {
+		string title;
+		string description;
+		string[] options;
 		uint256 totalPool;
 		uint256 winnerPool;
 		uint256 loserPool;
-		uint256 settleReward; // 0.01% reward for calling settle
 		uint256 outcome;
 		bool betOpen;
 		bool betSettled;
@@ -25,8 +30,8 @@ contract StakeChain {
 
 	address public owner;
 	uint256 public betEventCount;
-	IERC20 public guessToken;
-	uint256 public platformFee; // Global platform fee (e.g., 2%)
+	IERC20 public schainToken;
+	uint256 public platformFee = 1000; // Global platform fee (e.g., 2%)
 	mapping(uint256 => BetEvent) public betEvents;
 
 	event BetPlaced(
@@ -41,48 +46,65 @@ contract StakeChain {
 		address indexed player,
 		uint256 amount
 	);
-	event GUESSDistributed(address indexed player, uint256 amount);
+	event SCHAINDistributed(address indexed player, uint256 amount);
+	event BetEventCreated(
+		uint256 indexed betEventId,
+		string title,
+		string description,
+		string[] options
+	);
 
-	constructor(address _guessTokenAddress, uint256 _platformFee) {
+	error StakeChain__OnlyOwner();
+	error StakeChain__BetNotOpen();
+	error StakeChain__BetStillOpen();
+	error StakeChain__BetNotSettled();
+	error StakeChain__InvalidOutcome();
+	error StakeChain__BetAmountZero();
+	error StakeChain__BetAlreadyPlaced();
+	error StakeChain__BetsAlreadySettled();
+	error StakeChain__ShareAlreadyClaimed();
+	error StakeChain__NoShareAvailable();
+
+	constructor(address _schainTokenAddress) {
 		owner = msg.sender;
-		guessToken = IERC20(_guessTokenAddress);
-		platformFee = _platformFee; // Set global platform fee
+		schainToken = IERC20(_schainTokenAddress);
 	}
 
 	modifier onlyOwner() {
-		require(msg.sender == owner, "Only the owner can call this function");
+		if (msg.sender != owner) revert StakeChain__OnlyOwner();
 		_;
 	}
 
 	modifier betIsOpen(uint256 _betEventId) {
-		require(
-			betEvents[_betEventId].betOpen,
-			"Betting is not open for this bet event"
-		);
+		if (!betEvents[_betEventId].betOpen) revert StakeChain__BetNotOpen();
 		_;
 	}
 
 	modifier betIsClosed(uint256 _betEventId) {
-		require(
-			!betEvents[_betEventId].betOpen,
-			"Betting is still open for this bet event"
-		);
+		if (betEvents[_betEventId].betOpen) revert StakeChain__BetStillOpen();
 		_;
 	}
 
 	modifier betIsSettled(uint256 _betEventId) {
-		require(
-			betEvents[_betEventId].betSettled,
-			"Betting is not settled yet for this bet event"
-		);
+		if (!betEvents[_betEventId].betSettled)
+			revert StakeChain__BetNotSettled();
 		_;
 	}
 
-	// Create a new betting event
-	function createBetEvent() external onlyOwner {
+	// Create a new betting event with title, description, and options
+	function createBetEvent(
+		string memory _title,
+		string memory _description,
+		string[] memory _options
+	) external onlyOwner {
 		betEventCount++;
-		betEvents[betEventCount].settleReward = 1; // 0.01% of the pool
-		betEvents[betEventCount].betOpen = true;
+		BetEvent storage newBetEvent = betEvents[betEventCount];
+		newBetEvent.title = _title;
+		newBetEvent.description = _description;
+		newBetEvent.options = _options;
+		newBetEvent.betOpen = true;
+
+		emit BetEventCreated(betEventCount, _title, _description, _options);
 	}
 
 	// Players can place their bets
@@ -90,11 +112,9 @@ contract StakeChain {
 		uint256 _betEventId,
 		uint256 _outcome
 	) external payable betIsOpen(_betEventId) {
-		require(msg.value > 0, "Bet amount must be greater than zero");
-		require(
-			!betEvents[_betEventId].bets[msg.sender].claimed,
-			"Bet already placed"
-		);
+		if (msg.value == 0) revert StakeChain__BetAmountZero();
+		if (betEvents[_betEventId].bets[msg.sender].claimed)
+			revert StakeChain__BetAlreadyPlaced();
 
 		BetEvent storage _betEvent = betEvents[_betEventId];
 
@@ -110,7 +130,8 @@ contract StakeChain {
 		uint256 _betEventId,
 		uint256 _outcome
 	) external onlyOwner betIsOpen(_betEventId) {
-		require(_outcome == 1 || _outcome == 2, "Invalid outcome");
+		if (_outcome == 0 || _outcome > betEvents[_betEventId].options.length)
+			revert StakeChain__InvalidOutcome();
 		betEvents[_betEventId].outcome = _outcome;
 		betEvents[_betEventId].betOpen = false;
 		emit BetSettled(_betEventId, _outcome);
@@ -118,10 +139,8 @@ contract StakeChain {
 
 	// Settle the bets and assign shares for a specific  bet event
 	function settleBets(uint256 _betEventId) external betIsClosed(_betEventId) {
-		require(
-			!betEvents[_betEventId].betSettled,
-			"Bets already settled for this bet event"
-		);
+		if (betEvents[_betEventId].betSettled)
+			revert StakeChain__BetsAlreadySettled();
 
 		BetEvent storage _betEvent = betEvents[_betEventId];
 
@@ -136,9 +155,7 @@ contract StakeChain {
 		}
 
 		// Deduct platform fees
-		// uint256 fee = (_betEvent.totalPool * platformFee) / 100;
-		uint256 reward = (_betEvent.totalPool * _betEvent.settleReward) / 10000;
-		// uint256 poolAfterFee = _betEvent.totalPool - fee - reward;
+		uint256 reward = (_betEvent.totalPool * SETTLE_REWARD) / PERCENTAGE;
 
 		// Assign shares to winners
 		for (uint256 i = 0; i < _betEvent.players.length; i++) {
@@ -148,8 +165,8 @@ contract StakeChain {
 					(_betEvent.bets[player].amount * _betEvent.loserPool) /
 					_betEvent.winnerPool;
 			}
-			// Assign GUESS tokens for both winners and losers
-			_distributeGUESS(player);
+			// Assign SCHAIN tokens for both winners and losers
+			_distributeSCHAIN(player);
 		}
 
 		// Transfer settle reward to the caller
@@ -163,9 +180,10 @@ contract StakeChain {
 		uint256 _betEventId
 	) external betIsSettled(_betEventId) {
 		BetEvent storage _betEvent = betEvents[_betEventId];
-		require(!_betEvent.bets[msg.sender].claimed, "Share already claimed");
+		if (_betEvent.bets[msg.sender].claimed)
+			revert StakeChain__ShareAlreadyClaimed();
 		uint256 share = _betEvent.shares[msg.sender];
-		require(share > 0, "No share available");
+		if (share == 0) revert StakeChain__NoShareAvailable();
 
 		_betEvent.bets[msg.sender].claimed = true;
 		payable(msg.sender).transfer(share + _betEvent.bets[msg.sender].amount);
@@ -177,11 +195,11 @@ contract StakeChain {
 		);
 	}
 
-	// Distribute GUESS tokens (now using the ERC20 token standard)
-	function _distributeGUESS(address player) internal {
-		uint256 guessTokens = 100 * 10 ** 18; // Example: distribute 100 GUESS tokens, adjust as needed
-		guessToken.transfer(player, guessTokens);
-		emit GUESSDistributed(player, guessTokens);
+	// Distribute SCHAIN tokens (now using the ERC20 token standard)
+	function _distributeSCHAIN(address player) internal {
+		uint256 schainTokens = 100 * 10 ** 18; // Example: distribute 100 SCHAIN tokens, adjust as needed
+		schainToken.transfer(player, schainTokens);
+		emit SCHAINDistributed(player, schainTokens);
 	}
 
 	// In case there are any leftover funds, the owner can withdraw them
