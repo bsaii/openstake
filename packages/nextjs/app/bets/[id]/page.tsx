@@ -25,6 +25,10 @@ export default function Page({ params }: { params: { id: string } }) {
         amount
         outcome
       }
+        betSettleds(where: {betEventId: ${params.id}}) {
+            betEventId,
+            outcome
+         }
     }
   `;
   const url = "https://api.studio.thegraph.com/query/87621/stakechain/version/latest";
@@ -44,6 +48,10 @@ export default function Page({ params }: { params: { id: string } }) {
           betEventId: string;
           player: string;
           amount: string;
+          outcome: string;
+        }[];
+        betSettleds?: {
+          betEventId: string;
           outcome: string;
         }[];
       };
@@ -69,10 +77,14 @@ export default function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-      <div className="flex my-6">
+      <h1 className="text-6xl font-bold">{data?.betEventCreateds[0].title}</h1>
+      <div className="flex my-6 gap-x-4">
         <button className="btn" onClick={handleSettle}>
           Settle
         </button>
+        {data && data.betSettleds && data.betSettleds.length > 0 && options && (
+          <button className="btn">Final Outcome: {options[parseInt(data.betSettleds[0].outcome) - 1]}</button>
+        )}
       </div>
       {isLoading ? (
         <div className="w-full flex justify-center items-center h-screen">
@@ -99,9 +111,11 @@ export default function Page({ params }: { params: { id: string } }) {
         <ul className="space-y-4">
           {data.betPlaceds.map(bet => (
             <li key={bet.id} className="gap-y-4 bg-green-700 text-black p-4">
-              <p>Player: {bet.player}</p>
-              <p>Amount: {formatEther(BigInt(bet.amount))}</p>
-              <p>Outcome: {options && options.length > 0 && options[parseInt(bet.outcome) - 1]}</p>
+              <p className="font-medium text-lg">Player: {bet.player}</p>
+              <p className="font-medium text-lg">Amount: {formatEther(BigInt(bet.amount))}</p>
+              <p className="font-medium text-lg">
+                Outcome: {options && options.length > 0 && options[parseInt(bet.outcome) - 1]}
+              </p>
             </li>
           ))}
         </ul>
