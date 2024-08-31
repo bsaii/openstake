@@ -93,7 +93,7 @@ export default function Page({ params }: { params: { id: string } }) {
       <h1 className="text-6xl font-bold">{data?.betEventCreateds[0].title}</h1>
       {data && data.betSettleds && data.betSettleds.length > 0 && options && (
         <div className="flex my-6 gap-x-4 items-center">
-          {data.shareClaimeds && (
+          {data.shareClaimeds && data.shareClaimeds.length > 0 && (
             <Link
               className="btn btn-success"
               href={`https://sepolia.etherscan.io/tx/${data.shareClaimeds[0].transactionHash}`}
