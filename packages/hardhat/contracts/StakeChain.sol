@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
-/// @notice This contract allows users to place bets
-/// @custom:contact franzquarshie@gmail.com
 
 import { StakeChain_States } from "./StakeChain_States.sol";
 import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -16,10 +14,6 @@ error StakeChain__BetAlreadyPlaced();
 error StakeChain__BetsAlreadySettled();
 error StakeChain__NoShareAvailable();
 
-/**
- * @title StakeChain
- * @custom:security-contact franzquarshie@gmail.com
- */
 contract StakeChain is StakeChain_States, ReentrancyGuard {
 	struct Bet {
 		uint256 amount;
@@ -32,8 +26,6 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 		string description;
 		string[] options;
 		uint256 totalPool;
-		uint256 winnerPool;
-		uint256 loserPool;
 		uint256 outcome;
 		bool betOpen;
 		bool betSettled;
@@ -58,7 +50,6 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 		address indexed player,
 		uint256 amount
 	);
-	event SCHAINDistributed(address indexed player, uint256 amount);
 	event BetEventCreated(
 		uint256 indexed betEventId,
 		string title,
@@ -87,7 +78,6 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 		_;
 	}
 
-	// Create a new betting event with title, description, and options
 	function createBetEvent(
 		string memory _title,
 		string memory _description,
@@ -103,13 +93,12 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 		emit BetEventCreated(betEventCount, _title, _description, _options);
 	}
 
-	// Players can place their bets
 	function placeBet(
 		uint256 _betEventId,
 		uint256 _outcome
 	) external payable betIsOpen(_betEventId) {
 		if (msg.value == 0) revert StakeChain__BetAmountZero();
-		if (betEvents[_betEventId].bets[msg.sender].claimed)
+		if (betEvents[_betEventId].bets[msg.sender].amount > 0)
 			revert StakeChain__BetAlreadyPlaced();
 
 		BetEvent storage _betEvent = betEvents[_betEventId];
@@ -121,88 +110,76 @@ contract StakeChain is StakeChain_States, ReentrancyGuard {
 		emit BetPlaced(_betEventId, msg.sender, msg.value, _outcome);
 	}
 
-	// Close betting and set the outcome for a specific  bet event
 	function closeBetting(
 		uint256 _betEventId,
 		uint256 _outcome
 	) external onlyOwner betIsOpen(_betEventId) {
 		if (_outcome == 0 || _outcome > betEvents[_betEventId].options.length)
 			revert StakeChain__InvalidOutcome();
-		betEvents[_betEventId].outcome = _outcome;
-		betEvents[_betEventId].betOpen = false;
+
+		BetEvent storage _betEvent = betEvents[_betEventId];
+		_betEvent.outcome = _outcome;
+		_betEvent.betOpen = false;
+
 		emit BetSettled(_betEventId, _outcome);
 	}
 
-	// Settle the bets and distribute winnings to the winners
 	function settleBets(
 		uint256 _betEventId
 	) external nonReentrant betIsClosed(_betEventId) {
-		if (betEvents[_betEventId].betSettled)
-			revert StakeChain__BetsAlreadySettled();
-
 		BetEvent storage _betEvent = betEvents[_betEventId];
+		if (_betEvent.betSettled) revert StakeChain__BetsAlreadySettled();
 
-		// Calculate the total pools for winners and losers
+		uint256 totalWinningBets = 0;
 		for (uint256 i = 0; i < _betEvent.players.length; i++) {
 			address player = _betEvent.players[i];
 			if (_betEvent.bets[player].outcome == _betEvent.outcome) {
-				_betEvent.winnerPool += _betEvent.bets[player].amount;
-			} else {
-				_betEvent.loserPool += _betEvent.bets[player].amount;
+				totalWinningBets += _betEvent.bets[player].amount;
 			}
 		}
 
-		// Calculate and deduct platform fees
+		// Calculate and deduct fees
 		uint256 platformFee = (_betEvent.totalPool * PLATFORM_FEE) / PERCENTAGE;
 		uint256 sustainabilityFee = (_betEvent.totalPool * SUSTAINABILITY_FEE) /
 			PERCENTAGE;
 		uint256 settlerReward = (_betEvent.totalPool * SETTLE_REWARD) /
 			PERCENTAGE;
-
-		// Calculate the remaining pool after fees
 		uint256 remainingPool = _betEvent.totalPool -
 			platformFee -
 			sustainabilityFee -
 			settlerReward;
 
-		// Send platform fee to PLATFORM_WALLET
+		// Transfer fees
 		(bool platformFeeSent, ) = PLATFORM_WALLET.call{ value: platformFee }(
 			""
 		);
 		require(platformFeeSent, "Platform fee transfer failed");
 
-		// Send sustainability fee to SUSTAINABILITY_FEE_COLLECTOR
 		(bool sustainabilityFeeSent, ) = SUSTAINABILITY_FEE_COLLECTOR.call{
 			value: sustainabilityFee
 		}("");
 		require(sustainabilityFeeSent, "Sustainability fee transfer failed");
 
-		// Distribute remaining pool to winners
-		for (uint256 i = 0; i < _betEvent.players.length; i++) {
-			address player = _betEvent.players[i];
-			if (_betEvent.bets[player].outcome == _betEvent.outcome) {
-				uint256 winnings = (_betEvent.bets[player].amount *
-					remainingPool) / _betEvent.winnerPool;
-				(bool winningsSent, ) = player.call{
-					value: winnings + _betEvent.bets[player].amount
-				}("");
-				require(winningsSent, "Winnings transfer failed");
+		// Transfer settler reward to the caller
+		(bool settlerRewardSent, ) = msg.sender.call{ value: settlerReward }(
+			""
+		);
+		require(settlerRewardSent, "Settler reward transfer failed");
+
+		// Distribute winnings to winners
+		if (totalWinningBets > 0) {
+			for (uint256 i = 0; i < _betEvent.players.length; i++) {
+				address player = _betEvent.players[i];
+				if (_betEvent.bets[player].outcome == _betEvent.outcome) {
+					uint256 winnings = (_betEvent.bets[player].amount *
+						remainingPool) / totalWinningBets;
+					(bool winningsSent, ) = player.call{ value: winnings }("");
+					require(winningsSent, "Winnings transfer failed");
+					emit ShareClaimed(_betEventId, player, winnings);
+				}
 			}
 		}
 
-		// Transfer settle reward to the caller
-		(bool rewardSent, ) = msg.sender.call{ value: settlerReward }("");
-		require(rewardSent, "Settler reward transfer failed");
-
 		_betEvent.betSettled = true;
-
-		emit BetSettled(_betEventId, _betEvent.outcome);
-	}
-
-	// In case there are any leftover funds, the owner can withdraw them
-	function withdrawFunds(
-		uint256 _betEventId
-	) external onlyOwner betIsSettled(_betEventId) {
-		payable(OWNER).transfer(address(this).balance);
 	}
 }
