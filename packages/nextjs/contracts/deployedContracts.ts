@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     StakeChain: {
-      address: "0xE84093Ca8284d58D32D75D1Ce006f746AE2453Ae",
+      address: "0x0b198c1956D18E8b44ee6aE18fbC28ac60ED11E7",
       abi: [
         {
           inputs: [],
@@ -22,11 +22,6 @@ const deployedContracts = {
         {
           inputs: [],
           name: "StakeChain__BetNotOpen",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "StakeChain__BetNotSettled",
           type: "error",
         },
         {
@@ -133,25 +128,6 @@ const deployedContracts = {
             },
           ],
           name: "BetSettled",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "player",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
-            },
-          ],
-          name: "SCHAINDistributed",
           type: "event",
         },
         {
@@ -349,16 +325,6 @@ const deployedContracts = {
             },
             {
               internalType: "uint256",
-              name: "winnerPool",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "loserPool",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
               name: "outcome",
               type: "uint256",
             },
@@ -444,19 +410,6 @@ const deployedContracts = {
             },
           ],
           name: "settleBets",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "_betEventId",
-              type: "uint256",
-            },
-          ],
-          name: "withdrawFunds",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
