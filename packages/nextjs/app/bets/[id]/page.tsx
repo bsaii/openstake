@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import request, { gql } from "graphql-request";
 import { formatEther } from "viem";
@@ -26,9 +27,15 @@ export default function Page({ params }: { params: { id: string } }) {
         outcome
       }
         betSettleds(where: {betEventId: ${params.id}}) {
+            id
             betEventId,
             outcome
          }
+           shareClaimeds(where: {betEventId: ${params.id}}){
+            id
+            betEventId
+            transactionHash
+  }
     }
   `;
   const url = "https://api.studio.thegraph.com/query/87621/stakechain/version/latest";
@@ -51,8 +58,14 @@ export default function Page({ params }: { params: { id: string } }) {
           outcome: string;
         }[];
         betSettleds?: {
+          id: string;
           betEventId: string;
           outcome: string;
+        }[];
+        shareClaimeds?: {
+          id: string;
+          betEventId: string;
+          transactionHash: string;
         }[];
       };
     },
@@ -78,14 +91,24 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
       <h1 className="text-6xl font-bold">{data?.betEventCreateds[0].title}</h1>
-      <div className="flex my-6 gap-x-4">
-        <button className="btn" onClick={handleSettle}>
-          Settle
-        </button>
-        {data && data.betSettleds && data.betSettleds.length > 0 && options && (
+      {data && data.betSettleds && data.betSettleds.length > 0 && options && (
+        <div className="flex my-6 gap-x-4 items-center">
+          {data.shareClaimeds && (
+            <Link
+              className="btn btn-success"
+              href={`https://sepolia.etherscan.io/tx/${data.shareClaimeds[0].transactionHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Claimed
+            </Link>
+          )}
+          <button className="btn" onClick={handleSettle}>
+            Settle
+          </button>
           <button className="btn">Final Outcome: {options[parseInt(data.betSettleds[0].outcome) - 1]}</button>
-        )}
-      </div>
+        </div>
+      )}
       {isLoading ? (
         <div className="w-full flex justify-center items-center h-screen">
           <span className="loading loading-bars loading-lg"></span>
