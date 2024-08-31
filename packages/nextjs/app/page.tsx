@@ -110,25 +110,30 @@ const Home: NextPage = () => {
                         <button className="btn" onClick={() => push(`/ai?search=${event.title}`)}>
                           Ai Research
                         </button>
-                        <button
-                          className="btn btn-circle justify-center"
-                          onClick={() => setOpenStake({ id: -1, open: false })}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                        <div className="flex items-center gap-x-2">
+                          <button className="btn" onClick={() => push(`/bets/${event.betEventId}`)}>
+                            Bets
+                          </button>
+                          <button
+                            className="btn btn-circle justify-center"
+                            onClick={() => setOpenStake({ id: -1, open: false })}
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
 
                       <div className="flex flex-col gap-y-4">
@@ -160,6 +165,9 @@ const Home: NextPage = () => {
                     <div className="card-body">
                       <h2 className="card-title">{event.title}</h2>
                       <p>{event.description}</p>
+                      <button className="btn w-1/3" onClick={() => push(`/bets/${event.betEventId}`)}>
+                        Bets
+                      </button>
                       <div className="card-actions justify-end w-full gap-x-3">
                         <div className="carousel rounded-box gap-x-4">
                           {event.options.map((option, index) => (
